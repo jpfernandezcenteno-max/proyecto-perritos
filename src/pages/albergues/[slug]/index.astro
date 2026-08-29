@@ -17,26 +17,28 @@ const availableDogs = dogs.filter((d) => !d.adoptado);
 ---
 
 <Layout title={shelter.nombre} description={shelter.descripcion} ogImage={shelter.fotos[0]}>
-  <div class="relative">
-    <Image
-      src={shelter.fotos[0]}
-      alt={`Foto de portada de ${shelter.nombre}`}
-      width={1200}
-      height={700}
-      class="aspect-[4/3] w-full object-cover sm:aspect-video"
-    />
-    <a
-      href="/buscar"
-      aria-label="Volver a la búsqueda"
-      class="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-pill bg-surface/90 text-text-primary shadow-sm"
-    >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
-        <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    </a>
-    <span class="absolute bottom-4 right-4 rounded-pill bg-text-primary/70 px-2.5 py-1 text-xs font-medium text-white">
-      1/{shelter.fotos.length}
-    </span>
+  <div class="mx-auto max-w-3xl px-4 pt-4 sm:px-0">
+    <div class="relative overflow-hidden sm:rounded-card">
+      <Image
+        src={shelter.fotos[0]}
+        alt={`Foto de portada de ${shelter.nombre}`}
+        width={1200}
+        height={700}
+        class="h-64 w-full object-cover sm:h-80 lg:h-96"
+      />
+      <a
+        href="/buscar"
+        aria-label="Volver a la búsqueda"
+        class="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-pill bg-surface/90 text-text-primary shadow-sm"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
+          <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+      <span class="absolute bottom-4 right-4 rounded-pill bg-text-primary/70 px-2.5 py-1 text-xs font-medium text-white">
+        1/{shelter.fotos.length}
+      </span>
+    </div>
   </div>
 
   <div class="mx-auto max-w-3xl px-4 pb-10 pt-5">

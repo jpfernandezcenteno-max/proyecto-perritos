@@ -23,24 +23,26 @@ const whatsappHref = shelter.contacto.whatsapp
 ---
 
 <Layout title={`${dog.nombre} · ${shelter.nombre}`} description={dog.descripcion} ogImage={dog.fotos[0]}>
-  <div class="relative">
-    <Image
-      src={dog.fotos[0]}
-      alt={`Foto de ${dog.nombre}`}
-      width={1000}
-      height={1000}
-      class="aspect-square w-full object-cover sm:aspect-video"
-    />
-    <a
-      href={`/albergues/${shelter.slug}`}
-      aria-label={`Volver al perfil de ${shelter.nombre}`}
-      class="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-pill bg-surface/90 text-text-primary shadow-sm"
-    >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
-        <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-      </svg>
-    </a>
-    {dog.adoptado && <Badge variant="adoptada" class="absolute right-4 top-4" />}
+  <div class="mx-auto max-w-2xl px-4 pt-4 sm:px-0">
+    <div class="relative overflow-hidden sm:rounded-card">
+      <Image
+        src={dog.fotos[0]}
+        alt={`Foto de ${dog.nombre}`}
+        width={1000}
+        height={1000}
+        class="h-72 w-full object-cover sm:h-80 lg:h-96"
+      />
+      <a
+        href={`/albergues/${shelter.slug}`}
+        aria-label={`Volver al perfil de ${shelter.nombre}`}
+        class="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-pill bg-surface/90 text-text-primary shadow-sm"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
+          <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </a>
+      {dog.adoptado && <Badge variant="adoptada" class="absolute right-4 top-4" />}
+    </div>
   </div>
 
   <div class="mx-auto max-w-2xl px-4 pb-10 pt-5">

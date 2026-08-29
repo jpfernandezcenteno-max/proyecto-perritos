@@ -6,6 +6,7 @@ import DogCard from "../../../components/DogCard.astro";
 import Tabs from "../../../components/Tabs.astro";
 import FavoriteButton from "../../../components/islands/FavoriteButton";
 import { dataAdapter } from "../../../lib/data";
+import { formatSoles, formatFecha } from "../../../lib/format";
 import { Image } from "astro:assets";
 
 const { slug } = Astro.params;
@@ -14,6 +15,13 @@ if (!shelter) return Astro.redirect("/buscar");
 
 const dogs = await dataAdapter.getDogsByShelter(shelter.slug);
 const availableDogs = dogs.filter((d) => !d.adoptado);
+
+const gastos = await dataAdapter.getGastosByShelter(shelter.slug);
+const totalGastado = gastos.reduce((sum, g) => sum + g.monto, 0);
+
+const resenas = await dataAdapter.getResenasByShelter(shelter.slug);
+const promedioCalificacion =
+  resenas.length > 0 ? resenas.reduce((sum, r) => sum + r.calificacion, 0) / resenas.length : 0;
 ---
 
 <Layout title={shelter.nombre} description={shelter.descripcion} ogImage={shelter.fotos[0]}>
@@ -99,15 +107,63 @@ const availableDogs = dogs.filter((d) => !d.adoptado);
         </Fragment>
 
         <Fragment slot="gastos">
-          {/* TODO: rendición de cuentas — pendiente de definir la fuente de datos real */}
-          <p class="text-sm text-text-secondary">
-            Próximamente: el detalle de en qué se usa cada aporte a este albergue.
-          </p>
+          <div class="mb-3 flex items-center justify-between">
+            <h2 class="font-semibold text-text-primary">En qué se usó tu aporte</h2>
+            <span class="text-sm text-text-secondary">{formatSoles(totalGastado)} rendidos</span>
+          </div>
+          {gastos.length > 0 ? (
+            <ul class="divide-y divide-chip-bg overflow-hidden rounded-card bg-surface shadow-sm">
+              {gastos.map((gasto) => (
+                <li class="flex items-center justify-between gap-3 p-3">
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5">
+                      <span class="rounded-pill bg-chip-bg px-2 py-0.5 text-xs font-medium text-text-secondary">
+                        {gasto.categoria}
+                      </span>
+                    </div>
+                    <p class="mt-1 text-sm text-text-primary">{gasto.descripcion}</p>
+                    <p class="mt-0.5 text-xs text-text-secondary">{formatFecha(gasto.fecha)}</p>
+                  </div>
+                  <span class="shrink-0 font-semibold text-text-primary">{formatSoles(gasto.monto)}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class="text-sm text-text-secondary">Todavía no hay gastos registrados para este albergue.</p>
+          )}
         </Fragment>
 
         <Fragment slot="resenas">
-          {/* TODO: conectar con reseñas reales de donantes/adoptantes */}
-          <p class="text-sm text-text-secondary">Todavía no hay reseñas para este albergue.</p>
+          <div class="mb-3 flex items-center justify-between">
+            <h2 class="font-semibold text-text-primary">Reseñas</h2>
+            {resenas.length > 0 && (
+              <span class="text-sm text-text-secondary">
+                ★ {promedioCalificacion.toFixed(1)} · {resenas.length} {resenas.length === 1 ? "reseña" : "reseñas"}
+              </span>
+            )}
+          </div>
+          {resenas.length > 0 ? (
+            <div class="space-y-3">
+              {resenas.map((resena) => (
+                <div class="rounded-card bg-surface p-4 shadow-sm">
+                  <div class="flex items-start justify-between gap-3">
+                    <div>
+                      <p class="text-sm font-semibold text-text-primary">{resena.autor}</p>
+                      <p class="text-xs text-text-secondary">
+                        {resena.rol} · {formatFecha(resena.fecha)}
+                      </p>
+                    </div>
+                    <span class="shrink-0 text-sm font-semibold text-accent-urgent" aria-label={`${resena.calificacion} de 5 estrellas`}>
+                      {"★".repeat(resena.calificacion)}{"☆".repeat(5 - resena.calificacion)}
+                    </span>
+                  </div>
+                  <p class="mt-2 text-sm leading-relaxed text-text-secondary">{resena.comentario}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p class="text-sm text-text-secondary">Todavía no hay reseñas para este albergue.</p>
+          )}
         </Fragment>
       </Tabs>
     </div>

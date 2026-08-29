@@ -1,4 +1,4 @@
-import type { Dog, Shelter } from "../types";
+import type { Dog, Gasto, Resena, Shelter } from "../types";
 
 /**
  * Data access boundary. Pages/components must import `dataAdapter` from
@@ -11,4 +11,6 @@ export interface DataAdapter {
   getShelterBySlug(slug: string): Promise<Shelter | undefined>;
   getDogsByShelter(shelterSlug: string): Promise<Dog[]>;
   getDog(shelterSlug: string, dogSlug: string): Promise<Dog | undefined>;
+  getGastosByShelter(shelterSlug: string): Promise<Gasto[]>;
+  getResenasByShelter(shelterSlug: string): Promise<Resena[]>;
 }

@@ -31,6 +31,29 @@ const albergues = defineCollection({
   }),
 });
 
+const gastos = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/gastos" }),
+  schema: z.object({
+    albergueSlug: z.string(),
+    fecha: z.string(),
+    categoria: z.enum(["Alimento", "Veterinaria", "Esterilización", "Refugio"]),
+    monto: z.number(),
+    descripcion: z.string(),
+  }),
+});
+
+const resenas = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/resenas" }),
+  schema: z.object({
+    albergueSlug: z.string(),
+    autor: z.string(),
+    rol: z.enum(["Donante", "Adoptante"]),
+    calificacion: z.number().min(1).max(5),
+    fecha: z.string(),
+    comentario: z.string(),
+  }),
+});
+
 const perritos = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/perritos" }),
   schema: z.object({
@@ -47,4 +70,4 @@ const perritos = defineCollection({
   }),
 });
 
-export const collections = { albergues, perritos };
+export const collections = { albergues, perritos, gastos, resenas };

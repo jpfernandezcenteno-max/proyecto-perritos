@@ -31,6 +31,27 @@ export interface Shelter {
   };
 }
 
+export type GastoCategoria = "Alimento" | "Veterinaria" | "Esterilización" | "Refugio";
+
+export interface Gasto {
+  albergueSlug: string;
+  fecha: string;
+  categoria: GastoCategoria;
+  monto: number;
+  descripcion: string;
+}
+
+export type ResenaRol = "Donante" | "Adoptante";
+
+export interface Resena {
+  albergueSlug: string;
+  autor: string;
+  rol: ResenaRol;
+  calificacion: number;
+  fecha: string;
+  comentario: string;
+}
+
 export interface Dog {
   slug: string;
   albergueSlug: string;

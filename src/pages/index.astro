@@ -4,11 +4,22 @@ import SearchBar from "../components/SearchBar.astro";
 import FilterChips from "../components/FilterChips.astro";
 import StatRow from "../components/StatRow.astro";
 import ShelterCard from "../components/ShelterCard.astro";
+import DogCard from "../components/DogCard.astro";
 import { dataAdapter } from "../lib/data";
 import { formatSoles, progressPercent } from "../lib/format";
 import { Image } from "astro:assets";
 
 const shelters = await dataAdapter.getShelters();
+
+const dogsByShelter = await Promise.all(
+  shelters.map(async (shelter) => ({
+    shelter,
+    dogs: (await dataAdapter.getDogsByShelter(shelter.slug)).filter((d) => !d.adoptado),
+  })),
+);
+const adoptableDogs = dogsByShelter
+  .flatMap(({ shelter, dogs }) => dogs.map((dog) => ({ dog, shelterSlug: shelter.slug })))
+  .slice(0, 6);
 
 const totalRecaudado = shelters.reduce((sum, s) => sum + s.metaActual.montoRecaudado, 0);
 const totalYapeos = shelters.reduce((sum, s) => sum + s.metaActual.numAportantes, 0);
@@ -77,15 +88,18 @@ const needHelp = [...shelters]
       </section>
     )}
 
-    <section class="mt-8">
-      <div class="mb-3 flex items-center justify-between">
-        <h2 class="text-lg font-bold text-text-primary">Perritos en adopción</h2>
-        <a href="/buscar?tag=Adopcion" class="text-sm font-semibold text-text-secondary">Ver albergues</a>
-      </div>
-      <p class="rounded-card bg-surface p-4 text-sm text-text-secondary shadow-sm">
-        Cada albergue tiene su propia zona de adopción con los perritos listos para ir a casa —
-        entra al perfil de un albergue y revisa la pestaña <strong class="text-text-primary">Adopción</strong>.
-      </p>
-    </section>
+    {adoptableDogs.length > 0 && (
+      <section class="mt-8">
+        <div class="mb-3 flex items-center justify-between">
+          <h2 class="text-lg font-bold text-text-primary">Perritos en adopción</h2>
+          <a href="/buscar?tag=Adopcion" class="text-sm font-semibold text-text-secondary">Ver albergues</a>
+        </div>
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {adoptableDogs.map(({ dog, shelterSlug }) => (
+            <DogCard dog={dog} shelterSlug={shelterSlug} />
+          ))}
+        </div>
+      </section>
+    )}
   </div>
 </Layout>

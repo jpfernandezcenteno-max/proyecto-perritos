@@ -1,6 +1,6 @@
 import { getCollection, getEntry } from "astro:content";
 import type { DataAdapter } from "./adapter";
-import type { Dog, Shelter } from "../types";
+import type { Dog, Gasto, Resena, Shelter } from "../types";
 
 function toShelter(entry: Awaited<ReturnType<typeof getCollection<"albergues">>>[number]): Shelter {
   return { slug: entry.id, descripcion: entry.body ?? "", ...entry.data };
@@ -34,5 +34,17 @@ export const contentCollectionsAdapter: DataAdapter = {
     const entry = await getEntry("perritos", dogSlug);
     if (!entry || entry.data.albergueSlug !== shelterSlug) return undefined;
     return toDog(entry);
+  },
+
+  async getGastosByShelter(shelterSlug) {
+    const entries = await getCollection("gastos", (entry) => entry.data.albergueSlug === shelterSlug);
+    const gastos: Gasto[] = entries.map((entry) => entry.data);
+    return gastos.sort((a, b) => b.fecha.localeCompare(a.fecha));
+  },
+
+  async getResenasByShelter(shelterSlug) {
+    const entries = await getCollection("resenas", (entry) => entry.data.albergueSlug === shelterSlug);
+    const resenas: Resena[] = entries.map((entry) => entry.data);
+    return resenas.sort((a, b) => b.fecha.localeCompare(a.fecha));
   },
 };

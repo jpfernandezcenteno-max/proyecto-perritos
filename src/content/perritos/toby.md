@@ -1,5 +1,6 @@
 ---
 albergueSlug: "huellitas-de-amor"
+especie: "Perro"
 nombre: "Toby"
 edad: "1 año"
 tamano: "Mediano"
@@ -7,6 +8,8 @@ raza: "Mestizo"
 temperamento: "Muy activo, le encanta pasear"
 fotos:
   - "https://picsum.photos/seed/toby-1/900/900"
+  - "https://picsum.photos/seed/toby-2/900/900"
+  - "https://picsum.photos/seed/toby-3/900/900"
 estadoSalud: "Vacunado"
 disponible: true
 adoptado: false

@@ -1,8 +1,8 @@
 ---
 import Layout from "../../../../layouts/Layout.astro";
 import Badge from "../../../../components/Badge.astro";
+import DogGallery from "../../../../components/islands/DogGallery";
 import { dataAdapter } from "../../../../lib/data";
-import { Image } from "astro:assets";
 
 const { slug, perritoSlug } = Astro.params;
 const shelter = slug ? await dataAdapter.getShelterBySlug(slug) : undefined;
@@ -15,72 +15,70 @@ const statusVariant = {
   "En proceso": "en-proceso",
 } as const;
 
+const especieEmoji = dog.especie === "Gato" ? "🐱" : "🐶";
 const whatsappHref = shelter.contacto.whatsapp
   ? `https://wa.me/${shelter.contacto.whatsapp}?text=${encodeURIComponent(
-      `Hola, quisiera saber más sobre ${dog.nombre} de ${shelter.nombre} para adoptar 🐶`,
+      `Hola, quisiera saber más sobre ${dog.nombre} de ${shelter.nombre} para adoptar ${especieEmoji}`,
     )}`
   : undefined;
 ---
 
 <Layout title={`${dog.nombre} · ${shelter.nombre}`} description={dog.descripcion} ogImage={dog.fotos[0]}>
-  <div class="mx-auto max-w-2xl px-4 pt-4 sm:px-0">
-    <div class="relative overflow-hidden sm:rounded-card">
-      <Image
-        src={dog.fotos[0]}
-        alt={`Foto de ${dog.nombre}`}
-        width={1000}
-        height={1000}
-        class="h-72 w-full object-cover sm:h-80 lg:h-96"
-      />
+  <div class="mx-auto max-w-5xl px-4 pt-4 pb-10 lg:grid lg:grid-cols-2 lg:items-start lg:gap-10 lg:pt-8">
+    <div class="relative">
+      <DogGallery client:visible photos={dog.fotos} alt={`Foto de ${dog.nombre}`} />
       <a
         href={`/albergues/${shelter.slug}`}
         aria-label={`Volver al perfil de ${shelter.nombre}`}
-        class="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-pill bg-surface/90 text-text-primary shadow-sm"
+        class="absolute left-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-pill bg-surface/90 text-text-primary shadow-sm"
       >
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
           <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
         </svg>
       </a>
-      {dog.adoptado && <Badge variant="adoptada" class="absolute right-4 top-4" />}
+      {dog.adoptado && <Badge variant="adoptada" class="absolute left-14 top-3 z-10" />}
     </div>
-  </div>
 
-  <div class="mx-auto max-w-2xl px-4 pb-10 pt-5">
-    <h1 class="text-2xl font-bold text-text-primary">{dog.nombre}</h1>
-    <p class="mt-1 text-sm text-text-secondary">
-      {dog.edad} · {dog.tamano}
-      {dog.raza && ` · ${dog.raza}`}
-    </p>
+    <div class="mt-5 lg:mt-0">
+      <h1 class="text-2xl font-bold text-text-primary lg:text-3xl">{dog.nombre}</h1>
+      <p class="mt-1 text-sm text-text-secondary">
+        {dog.especie} · {dog.edad} · {dog.tamano}
+        {dog.raza && ` · ${dog.raza}`}
+      </p>
 
-    <Badge variant={statusVariant[dog.estadoSalud]} class="mt-3" />
+      <Badge variant={statusVariant[dog.estadoSalud]} class="mt-3" />
 
-    {dog.temperamento && (
-      <p class="mt-4 text-sm leading-relaxed text-text-secondary">{dog.temperamento}</p>
-    )}
-    <p class="mt-2 text-sm leading-relaxed text-text-secondary">{dog.descripcion}</p>
+      {dog.temperamento && (
+        <p class="mt-4 text-sm leading-relaxed text-text-secondary">{dog.temperamento}</p>
+      )}
+      <p class="mt-2 text-sm leading-relaxed text-text-secondary">{dog.descripcion}</p>
 
-    <p class="mt-4 text-sm text-text-secondary">
-      De <a href={`/albergues/${shelter.slug}`} class="font-semibold text-text-primary underline">{shelter.nombre}</a>
-    </p>
+      <p class="mt-4 text-sm text-text-secondary">
+        De <a href={`/albergues/${shelter.slug}`} class="font-semibold text-text-primary underline">{shelter.nombre}</a>
+      </p>
 
-    {!dog.adoptado && (
-      <div class="mt-6">
-        {whatsappHref ? (
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="block w-full rounded-pill bg-accent-cta py-3 text-center text-sm font-semibold text-white"
-          >
-            Quiero adoptar a {dog.nombre}
-          </a>
-        ) : (
-          // TODO: fallback formulario de contacto cuando el albergue no tiene WhatsApp registrado
-          <p class="rounded-input bg-chip-bg p-3 text-center text-sm text-text-secondary">
-            Contacta al albergue para más información sobre adopción.
-          </p>
-        )}
-      </div>
-    )}
+      {!dog.adoptado && (
+        <div class="mt-6 lg:mt-8">
+          {whatsappHref ? (
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex w-full items-center justify-center gap-2 rounded-pill bg-accent-cta py-3 text-center text-sm font-semibold text-white transition hover:opacity-90"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4" aria-hidden="true">
+                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.9 9.9 0 004.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.03h-.01a8.2 8.2 0 01-4.19-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.2 8.2 0 01-1.26-4.36c0-4.54 3.7-8.24 8.25-8.24 2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 012.42 5.83c0 4.55-3.7 8.21-8.26 8.21zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.04-.38-1.99-1.22-.73-.66-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.24-.41.08-.17.04-.31-.02-.44-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.87.85-.87 2.08s.89 2.41 1.02 2.58c.12.17 1.75 2.67 4.24 3.75.59.26 1.06.41 1.42.52.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.14-1.18-.06-.11-.23-.17-.48-.29z"></path>
+              </svg>
+              Quiero adoptar a {dog.nombre}
+            </a>
+          ) : (
+            // TODO: fallback formulario de contacto cuando el albergue no tiene WhatsApp registrado
+            <p class="rounded-input bg-chip-bg p-3 text-center text-sm text-text-secondary">
+              Contacta al albergue para más información sobre adopción.
+            </p>
+          )}
+        </div>
+      )}
+    </div>
   </div>
 </Layout>

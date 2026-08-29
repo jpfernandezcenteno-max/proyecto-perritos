@@ -39,7 +39,7 @@ const { dog, shelterSlug, class: className = "" } = Astro.props;
   </div>
   <div class="p-3">
     <h3 class="font-semibold text-text-primary">{dog.nombre}</h3>
-    <p class="mt-0.5 text-xs text-text-secondary">{dog.edad} · {dog.tamano}</p>
+    <p class="mt-0.5 text-xs text-text-secondary">{dog.especie} · {dog.edad} · {dog.tamano}</p>
     <Badge variant={statusVariant[dog.estadoSalud]} class="mt-2" />
   </div>
 </a>

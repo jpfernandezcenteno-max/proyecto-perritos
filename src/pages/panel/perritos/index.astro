@@ -16,10 +16,10 @@ const statusVariant = {
 } as const;
 ---
 
-<Layout title="Mis perritos">
+<Layout title="Mis mascotas">
   <div class="mx-auto max-w-2xl px-4 pb-10 pt-6">
     <div class="flex items-center justify-between">
-      <h1 class="text-xl font-bold text-text-primary">Mis perritos</h1>
+      <h1 class="text-xl font-bold text-text-primary">Mis mascotas</h1>
       <a href="/panel/perritos/nuevo" class="rounded-pill bg-accent-cta px-4 py-2 text-sm font-semibold text-white">
         + Nuevo
       </a>
@@ -31,7 +31,7 @@ const statusVariant = {
           <Image src={dog.fotos[0]} alt={dog.nombre} width={56} height={56} class="h-14 w-14 rounded-input object-cover" />
           <div class="min-w-0 flex-1">
             <p class="font-semibold text-text-primary">{dog.nombre}</p>
-            <p class="text-xs text-text-secondary">{dog.edad} · {dog.tamano}</p>
+            <p class="text-xs text-text-secondary">{dog.especie} · {dog.edad} · {dog.tamano}</p>
           </div>
           <Badge variant={dog.adoptado ? "adoptada" : statusVariant[dog.estadoSalud]} />
           {/* TODO: acciones de editar/marcar como adoptado — pendiente de backend de escritura */}

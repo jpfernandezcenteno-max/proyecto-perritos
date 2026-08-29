@@ -25,59 +25,61 @@ const promedioCalificacion =
 ---
 
 <Layout title={shelter.nombre} description={shelter.descripcion} ogImage={shelter.fotos[0]}>
-  <div class="mx-auto max-w-3xl px-4 pt-4 sm:px-0">
-    <div class="relative overflow-hidden sm:rounded-card">
-      <Image
-        src={shelter.fotos[0]}
-        alt={`Foto de portada de ${shelter.nombre}`}
-        width={1200}
-        height={700}
-        class="h-64 w-full object-cover sm:h-80 lg:h-96"
-      />
-      <a
-        href="/buscar"
-        aria-label="Volver a la búsqueda"
-        class="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-pill bg-surface/90 text-text-primary shadow-sm"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
-          <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
-        </svg>
-      </a>
-      <span class="absolute bottom-4 right-4 rounded-pill bg-text-primary/70 px-2.5 py-1 text-xs font-medium text-white">
-        1/{shelter.fotos.length}
-      </span>
-    </div>
-  </div>
+  <div class="mx-auto max-w-6xl px-4 pt-4 pb-10 lg:grid lg:grid-cols-[1.1fr_1fr] lg:items-start lg:gap-10 lg:px-8 lg:pt-8">
+    <div class="lg:sticky lg:top-20">
+      <div class="relative overflow-hidden rounded-card sm:mx-0">
+        <Image
+          src={shelter.fotos[0]}
+          alt={`Foto de portada de ${shelter.nombre}`}
+          width={1200}
+          height={700}
+          class="h-64 w-full object-cover sm:h-80 lg:h-[26rem]"
+        />
+        <a
+          href="/buscar"
+          aria-label="Volver a la búsqueda"
+          class="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-pill bg-surface/90 text-text-primary shadow-sm"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
+            <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </a>
+        <span class="absolute bottom-4 right-4 rounded-pill bg-text-primary/70 px-2.5 py-1 text-xs font-medium text-white">
+          1/{shelter.fotos.length}
+        </span>
+      </div>
 
-  <div class="mx-auto max-w-3xl px-4 pb-10 pt-5">
-    <div class="flex items-center gap-1.5">
-      <h1 class="text-2xl font-bold text-text-primary">{shelter.nombre}</h1>
-      {shelter.verificado && (
-        <Badge variant="verificado" class="!bg-transparent !p-0 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-success" />
-      )}
-    </div>
-    <p class="mt-1 text-sm text-text-secondary">
-      {shelter.distrito} · {shelter.totalPerritos} perritos
-      {shelter.anioVerificacion && ` · Verificado desde ${shelter.anioVerificacion}`}
-    </p>
+      <div class="mt-5">
+        <div class="flex items-center gap-1.5">
+          <h1 class="text-2xl font-bold text-text-primary">{shelter.nombre}</h1>
+          {shelter.verificado && (
+            <Badge variant="verificado" class="!bg-transparent !p-0 [&>svg]:h-5 [&>svg]:w-5 [&>svg]:text-success" />
+          )}
+        </div>
+        <p class="mt-1 text-sm text-text-secondary">
+          {shelter.distrito} · {shelter.totalPerritos} mascotas
+          {shelter.anioVerificacion && ` · Verificado desde ${shelter.anioVerificacion}`}
+        </p>
 
-    <div class="mt-5 rounded-card bg-surface p-4 shadow-sm">
-      <p class="text-sm font-semibold text-text-primary">{shelter.metaActual.descripcionCampania}</p>
-      <ProgressBar current={shelter.metaActual.montoRecaudado} goal={shelter.metaActual.montoMeta} class="mt-3" />
-      <p class="mt-2 text-xs text-text-secondary">{shelter.metaActual.numAportantes} personas ya aportaron</p>
+        <div class="mt-5 rounded-card bg-surface p-4 shadow-sm">
+          <p class="text-sm font-semibold text-text-primary">{shelter.metaActual.descripcionCampania}</p>
+          <ProgressBar current={shelter.metaActual.montoRecaudado} goal={shelter.metaActual.montoMeta} class="mt-3" />
+          <p class="mt-2 text-xs text-text-secondary">{shelter.metaActual.numAportantes} personas ya aportaron</p>
+        </div>
+
+        <div class="mt-4 flex gap-3">
+          <a
+            href={`/albergues/${shelter.slug}/qr`}
+            class="flex-1 rounded-pill bg-accent-cta py-3 text-center text-sm font-semibold text-white"
+          >
+            Ver QR para yapear
+          </a>
+          <FavoriteButton client:visible shelterName={shelter.nombre} />
+        </div>
+      </div>
     </div>
 
-    <div class="mt-4 flex gap-3">
-      <a
-        href={`/albergues/${shelter.slug}/qr`}
-        class="flex-1 rounded-pill bg-accent-cta py-3 text-center text-sm font-semibold text-white"
-      >
-        Ver QR para yapear
-      </a>
-      <FavoriteButton client:visible shelterName={shelter.nombre} />
-    </div>
-
-    <div class="mt-8">
+    <div class="mt-8 lg:mt-0">
       <Tabs
         tabs={[
           { id: "nosotros", label: "Nosotros" },
@@ -102,7 +104,7 @@ const promedioCalificacion =
               ))}
             </div>
           ) : (
-            <p class="text-sm text-text-secondary">Por ahora no hay perritos disponibles para adopción.</p>
+            <p class="text-sm text-text-secondary">Por ahora no hay mascotas disponibles para adopción.</p>
           )}
         </Fragment>
 

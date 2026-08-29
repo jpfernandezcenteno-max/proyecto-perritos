@@ -1,5 +1,6 @@
 ---
 albergueSlug: "patitas-felices"
+especie: "Perro"
 nombre: "Firulais"
 edad: "2 años"
 tamano: "Mediano"
@@ -8,6 +9,7 @@ temperamento: "Juguetón y cariñoso, se lleva bien con niños"
 fotos:
   - "https://picsum.photos/seed/firulais-1/900/900"
   - "https://picsum.photos/seed/firulais-2/900/900"
+  - "https://picsum.photos/seed/firulais-3/900/900"
 estadoSalud: "Vacunado"
 disponible: true
 adoptado: false

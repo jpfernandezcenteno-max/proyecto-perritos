@@ -1,6 +1,7 @@
 export type ShelterTag = "Urgente" | "Comida" | "Veterinaria" | "Adopcion";
 export type HealthStatus = "Esterilizado" | "Vacunado" | "En proceso";
 export type DogSize = "Pequeño" | "Mediano" | "Grande";
+export type Especie = "Perro" | "Gato";
 
 export interface Shelter {
   slug: string;
@@ -55,6 +56,7 @@ export interface Resena {
 export interface Dog {
   slug: string;
   albergueSlug: string;
+  especie: Especie;
   nombre: string;
   edad: string;
   tamano: DogSize;

@@ -163,7 +163,7 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
                         {shelter.verificado && <span className="text-success" aria-label="Verificado">✓</span>}
                       </div>
                       <p className="mt-0.5 text-xs text-text-secondary">
-                        {shelter.distrito} · {shelter.totalPerritos} perritos
+                        {shelter.distrito} · {shelter.totalPerritos} mascotas
                       </p>
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {shelter.tags.map((tag) => (

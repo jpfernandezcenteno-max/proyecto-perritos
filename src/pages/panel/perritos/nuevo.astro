@@ -1,11 +1,13 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
+
+const MAX_FOTOS = 5;
 ---
 
 <!-- TODO: conectar a persistencia real; hoy es solo el formulario visual -->
-<Layout title="Nuevo perrito">
+<Layout title="Nueva mascota">
   <div class="mx-auto max-w-xl px-4 pb-10 pt-6">
-    <h1 class="text-xl font-bold text-text-primary">Nuevo perrito</h1>
+    <h1 class="text-xl font-bold text-text-primary">Nueva mascota</h1>
 
     <form class="mt-6 space-y-4" method="post" action="#">
       <div>
@@ -14,17 +16,24 @@ import Layout from "../../../layouts/Layout.astro";
       </div>
       <div class="grid grid-cols-2 gap-3">
         <div>
+          <label for="especie" class="text-sm font-medium text-text-primary">Especie</label>
+          <select id="especie" name="especie" class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm">
+            <option>Perro</option>
+            <option>Gato</option>
+          </select>
+        </div>
+        <div>
           <label for="edad" class="text-sm font-medium text-text-primary">Edad</label>
           <input id="edad" name="edad" type="text" placeholder="ej. 2 años" class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
         </div>
-        <div>
-          <label for="tamano" class="text-sm font-medium text-text-primary">Tamaño</label>
-          <select id="tamano" name="tamano" class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm">
-            <option>Pequeño</option>
-            <option>Mediano</option>
-            <option>Grande</option>
-          </select>
-        </div>
+      </div>
+      <div>
+        <label for="tamano" class="text-sm font-medium text-text-primary">Tamaño</label>
+        <select id="tamano" name="tamano" class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm">
+          <option>Pequeño</option>
+          <option>Mediano</option>
+          <option>Grande</option>
+        </select>
       </div>
       <div>
         <label for="raza" class="text-sm font-medium text-text-primary">Raza</label>
@@ -43,16 +52,52 @@ import Layout from "../../../layouts/Layout.astro";
         </select>
       </div>
       <div>
-        <label for="fotos" class="text-sm font-medium text-text-primary">Fotos</label>
-        <input id="fotos" name="fotos" type="file" accept="image/*" multiple class="mt-1 w-full text-sm" />
+        <label for="fotos" class="text-sm font-medium text-text-primary">Fotos (hasta {MAX_FOTOS})</label>
+        <input
+          id="fotos"
+          name="fotos"
+          type="file"
+          accept="image/*"
+          multiple
+          data-max-fotos={MAX_FOTOS}
+          class="mt-1 w-full text-sm"
+        />
+        <p id="fotos-error" hidden class="mt-1 text-xs font-medium text-accent-urgent">
+          Puedes subir hasta {MAX_FOTOS} fotos — se tomarán solo las primeras {MAX_FOTOS}.
+        </p>
       </div>
       <label class="flex items-center gap-2 text-sm text-text-primary">
         <input type="checkbox" name="disponible" checked class="h-4 w-4 rounded border-chip-bg text-accent-cta" />
         Disponible para adopción
       </label>
       <button type="submit" class="w-full rounded-pill bg-accent-cta py-3 text-sm font-semibold text-white">
-        Guardar perrito
+        Guardar mascota
       </button>
     </form>
   </div>
 </Layout>
+
+<script>
+  function initFotosLimit() {
+    const input = document.querySelector<HTMLInputElement>("input[data-max-fotos]");
+    const error = document.getElementById("fotos-error");
+    if (!input || !error || input.dataset.bound) return;
+    input.dataset.bound = "true";
+
+    const max = Number(input.dataset.maxFotos);
+
+    input.addEventListener("change", () => {
+      if (!input.files || input.files.length <= max) {
+        error.hidden = true;
+        return;
+      }
+      const trimmed = new DataTransfer();
+      for (let i = 0; i < max; i++) trimmed.items.add(input.files[i]);
+      input.files = trimmed.files;
+      error.hidden = false;
+    });
+  }
+
+  initFotosLimit();
+  document.addEventListener("astro:page-load", initFotosLimit);
+</script>

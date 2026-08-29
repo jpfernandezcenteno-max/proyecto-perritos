@@ -1,0 +1,32 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SearchAndFilter, { type ShelterTag } from "../components/islands/SearchAndFilter";
+import { dataAdapter } from "../lib/data";
+
+const shelters = await dataAdapter.getShelters();
+
+const searchable = shelters.map((s) => ({
+  slug: s.slug,
+  nombre: s.nombre,
+  verificado: s.verificado,
+  distrito: s.distrito,
+  totalPerritos: s.totalPerritos,
+  tags: s.tags as ShelterTag[],
+  montoRecaudado: s.metaActual.montoRecaudado,
+  montoMeta: s.metaActual.montoMeta,
+  foto: s.fotos[0],
+  lat: s.lat,
+  lng: s.lng,
+}));
+
+const initialQuery = Astro.url.searchParams.get("q") ?? "";
+const tagParam = Astro.url.searchParams.get("tag");
+const initialTags = (tagParam ? [tagParam] : []) as ShelterTag[];
+---
+
+<Layout title="Buscar">
+  <div class="mx-auto max-w-3xl px-4 pb-10 pt-6">
+    <h1 class="sr-only">Buscar albergues</h1>
+    <SearchAndFilter client:load shelters={searchable} initialQuery={initialQuery} initialTags={initialTags} />
+  </div>
+</Layout>

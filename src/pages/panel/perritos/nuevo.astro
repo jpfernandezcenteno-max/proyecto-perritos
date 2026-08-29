@@ -1,0 +1,58 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+---
+
+<!-- TODO: conectar a persistencia real; hoy es solo el formulario visual -->
+<Layout title="Nuevo perrito" showBottomNav={false}>
+  <div class="mx-auto max-w-xl px-4 pb-10 pt-6">
+    <h1 class="text-xl font-bold text-text-primary">Nuevo perrito</h1>
+
+    <form class="mt-6 space-y-4" method="post" action="#">
+      <div>
+        <label for="nombre" class="text-sm font-medium text-text-primary">Nombre</label>
+        <input id="nombre" name="nombre" type="text" required class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for="edad" class="text-sm font-medium text-text-primary">Edad</label>
+          <input id="edad" name="edad" type="text" placeholder="ej. 2 años" class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
+        </div>
+        <div>
+          <label for="tamano" class="text-sm font-medium text-text-primary">Tamaño</label>
+          <select id="tamano" name="tamano" class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm">
+            <option>Pequeño</option>
+            <option>Mediano</option>
+            <option>Grande</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label for="raza" class="text-sm font-medium text-text-primary">Raza</label>
+        <input id="raza" name="raza" type="text" class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
+      </div>
+      <div>
+        <label for="temperamento" class="text-sm font-medium text-text-primary">Temperamento</label>
+        <textarea id="temperamento" name="temperamento" rows={3} class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm"></textarea>
+      </div>
+      <div>
+        <label for="estadoSalud" class="text-sm font-medium text-text-primary">Estado de salud</label>
+        <select id="estadoSalud" name="estadoSalud" class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm">
+          <option>Esterilizado</option>
+          <option>Vacunado</option>
+          <option>En proceso</option>
+        </select>
+      </div>
+      <div>
+        <label for="fotos" class="text-sm font-medium text-text-primary">Fotos</label>
+        <input id="fotos" name="fotos" type="file" accept="image/*" multiple class="mt-1 w-full text-sm" />
+      </div>
+      <label class="flex items-center gap-2 text-sm text-text-primary">
+        <input type="checkbox" name="disponible" checked class="h-4 w-4 rounded border-chip-bg text-accent-cta" />
+        Disponible para adopción
+      </label>
+      <button type="submit" class="w-full rounded-pill bg-accent-cta py-3 text-sm font-semibold text-white">
+        Guardar perrito
+      </button>
+    </form>
+  </div>
+</Layout>

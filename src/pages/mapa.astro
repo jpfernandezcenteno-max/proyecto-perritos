@@ -1,0 +1,85 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SearchBar from "../components/SearchBar.astro";
+import RankingList from "../components/RankingList.astro";
+import StatRow from "../components/StatRow.astro";
+import MapView, { type MapPin } from "../components/islands/MapView";
+import { dataAdapter } from "../lib/data";
+import { formatSoles, progressPercent } from "../lib/format";
+
+const distritoQuery = Astro.url.searchParams.get("distrito")?.toLowerCase();
+const allShelters = await dataAdapter.getShelters();
+const shelters = distritoQuery
+  ? allShelters.filter((s) => s.distrito.toLowerCase().includes(distritoQuery))
+  : allShelters;
+
+function urgencyFor(pct: number): MapPin["urgencia"] {
+  if (pct < 50) return "alto";
+  if (pct < 100) return "medio";
+  return "bajo";
+}
+
+const pins: MapPin[] = shelters.map((s, i) => {
+  const pct = progressPercent(s.metaActual.montoRecaudado, s.metaActual.montoMeta);
+  return {
+    id: s.slug,
+    nombre: s.nombre,
+    slug: s.slug,
+    x: 15 + ((i * 29) % 70),
+    y: 15 + ((i * 41) % 70),
+    urgencia: urgencyFor(pct),
+  };
+});
+
+const mostUrgent = [...shelters].sort(
+  (a, b) =>
+    progressPercent(a.metaActual.montoRecaudado, a.metaActual.montoMeta) -
+    progressPercent(b.metaActual.montoRecaudado, b.metaActual.montoMeta),
+)[0];
+if (mostUrgent) {
+  const pin = pins.find((p) => p.slug === mostUrgent.slug);
+  if (pin) pin.label = `${progressPercent(mostUrgent.metaActual.montoRecaudado, mostUrgent.metaActual.montoMeta)}%`;
+}
+
+const ranking = [...shelters]
+  .sort((a, b) => b.metaActual.numAportantes - a.metaActual.numAportantes)
+  .map((s) => ({
+    slug: s.slug,
+    nombre: s.nombre,
+    distrito: s.distrito,
+    numYapeos: s.metaActual.numAportantes,
+    montoRecaudado: s.metaActual.montoRecaudado,
+  }));
+
+const totalMonto = shelters.reduce((sum, s) => sum + s.metaActual.montoRecaudado, 0);
+const totalPersonas = shelters.reduce((sum, s) => sum + s.metaActual.numAportantes, 0);
+const distritos = new Set(shelters.map((s) => s.distrito)).size;
+
+const monthLabel = new Date().toLocaleDateString("es-PE", { month: "long" });
+---
+
+<Layout title="Mapa y ranking">
+  <div class="mx-auto max-w-3xl px-4 pb-10 pt-6">
+    <div class="flex items-center gap-2">
+      <SearchBar action="/mapa" value={distritoQuery ?? ""} placeholder="Busca por distrito" class="flex-1" />
+      <a href="/buscar" class="shrink-0 rounded-pill bg-chip-bg px-4 py-3 text-sm font-semibold text-text-primary">Lista</a>
+    </div>
+
+    <MapView client:load pins={pins} zoneLabel={`Lima Metropolitana · ${pins.length} pines`} heightClassName="mt-4 h-96" />
+
+    {/* TODO: convertir en un bottom sheet arrastrable (p.ej. vaul) en vez de una sección fija */}
+    <section class="mt-6 rounded-card bg-surface p-4 shadow-sm">
+      <h2 class="font-bold text-text-primary">Top albergues de {monthLabel}</h2>
+      <RankingList items={ranking} class="mt-3" />
+    </section>
+
+    <StatRow
+      class="mt-4"
+      stats={[
+        { value: formatSoles(totalMonto), label: "Total yapeado" },
+        { value: String(totalPersonas), label: "Personas" },
+        { value: String(distritos), label: "Distritos" },
+      ]}
+    />
+  </div>
+</Layout>

@@ -1,0 +1,34 @@
+---
+import { formatSoles } from "../lib/format";
+
+interface ImpactAmount {
+  monto: number;
+  equivalencia: string;
+}
+
+interface Props {
+  amounts?: ImpactAmount[];
+  class?: string;
+}
+
+// TODO: replace with per-shelter equivalences once that data model exists.
+const defaultAmounts: ImpactAmount[] = [
+  { monto: 10, equivalencia: "1 día de comida" },
+  { monto: 30, equivalencia: "3 días de comida" },
+  { monto: 80, equivalencia: "una vacuna completa" },
+];
+
+const { amounts = defaultAmounts, class: className = "" } = Astro.props;
+---
+
+<div class:list={["", className]}>
+  <p class="mb-2 text-sm font-semibold text-text-primary">Referencia de impacto</p>
+  <div class="grid grid-cols-3 gap-2">
+    {amounts.map((amount) => (
+      <div class="rounded-input bg-chip-bg p-3 text-center">
+        <p class="font-bold text-text-primary">{formatSoles(amount.monto)}</p>
+        <p class="mt-1 text-xs text-text-secondary">{amount.equivalencia}</p>
+      </div>
+    ))}
+  </div>
+</div>

@@ -1,0 +1,22 @@
+---
+interface Props {
+  text?: string;
+  class?: string;
+}
+
+const {
+  text = "Wasitas no toca el dinero: tu yapeo llega directo a la cuenta del albergue.",
+  class: className = "",
+} = Astro.props;
+---
+
+<div class:list={["flex items-start gap-2 rounded-input bg-text-primary/5 p-3 text-xs text-text-secondary", className]}>
+  <svg viewBox="0 0 20 20" fill="currentColor" class="mt-0.5 h-4 w-4 shrink-0 text-success" aria-hidden="true">
+    <path
+      fill-rule="evenodd"
+      d="M10 1.5c.28 0 .55.07.8.2l6 3a1.75 1.75 0 011 1.57v4.36c0 4.2-2.9 7.86-7 8.87-4.1-1.01-7-4.67-7-8.87V6.27a1.75 1.75 0 011-1.57l6-3c.25-.13.52-.2.8-.2z"
+      clip-rule="evenodd"
+    ></path>
+  </svg>
+  <p>{text}</p>
+</div>

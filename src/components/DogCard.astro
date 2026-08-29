@@ -1,0 +1,45 @@
+---
+import { Image } from "astro:assets";
+import Badge from "./Badge.astro";
+import type { Dog } from "../lib/types";
+
+const statusVariant: Record<Dog["estadoSalud"], "esterilizado" | "vacunado" | "en-proceso"> = {
+  Esterilizado: "esterilizado",
+  Vacunado: "vacunado",
+  "En proceso": "en-proceso",
+};
+
+interface Props {
+  dog: Dog;
+  shelterSlug: string;
+  class?: string;
+}
+
+const { dog, shelterSlug, class: className = "" } = Astro.props;
+---
+
+<a
+  href={`/albergues/${shelterSlug}/perritos/${dog.slug}`}
+  class:list={[
+    "block overflow-hidden rounded-card bg-surface shadow-sm transition hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-cta",
+    className,
+  ]}
+>
+  <div class="relative">
+    <Image
+      src={dog.fotos[0]}
+      alt={`Foto de ${dog.nombre}`}
+      width={400}
+      height={300}
+      class="aspect-[4/3] w-full object-cover"
+    />
+    {dog.adoptado && (
+      <Badge variant="adoptada" class="absolute right-2 top-2" />
+    )}
+  </div>
+  <div class="p-3">
+    <h3 class="font-semibold text-text-primary">{dog.nombre}</h3>
+    <p class="mt-0.5 text-xs text-text-secondary">{dog.edad} · {dog.tamano}</p>
+    <Badge variant={statusVariant[dog.estadoSalud]} class="mt-2" />
+  </div>
+</a>

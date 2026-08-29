@@ -1,0 +1,95 @@
+---
+import Layout from "../layouts/Layout.astro";
+import StatRow from "../components/StatRow.astro";
+import DogCard from "../components/DogCard.astro";
+import ThemeToggle from "../components/islands/ThemeToggle";
+import MonthlyDonationCard from "../components/islands/MonthlyDonationCard";
+import { dataAdapter } from "../lib/data";
+import { formatSoles } from "../lib/format";
+
+// TODO: reemplazar con el usuario autenticado real — ver "Mecanismo de autenticación" en Pendiente de definir.
+const donor = {
+  nombre: "María José",
+  iniciales: "MJ",
+  donanteDesde: "marzo 2024",
+};
+
+const shelters = await dataAdapter.getShelters();
+const mainShelter = shelters[0];
+const allDogs = mainShelter ? await dataAdapter.getDogsByShelter(mainShelter.slug) : [];
+const following = allDogs.slice(0, 2);
+
+const historial = shelters.slice(0, 3).map((s, i) => ({
+  shelter: s,
+  fecha: new Date(Date.now() - (i + 1) * 1000 * 60 * 60 * 24 * 12).toLocaleDateString("es-PE", {
+    day: "2-digit",
+    month: "short",
+  }),
+  constancia: `WS-${(1000 + i * 37).toString(36).toUpperCase()}`,
+  monto: [30, 50, 20][i] ?? 20,
+}));
+
+const totalDonado = historial.reduce((sum, h) => sum + h.monto, 0);
+---
+
+<Layout title="Mi cuenta">
+  <div class="mx-auto max-w-3xl px-4 pb-10 pt-6">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="flex h-12 w-12 items-center justify-center rounded-pill bg-accent-cta text-sm font-semibold text-white">
+          {donor.iniciales}
+        </span>
+        <div>
+          <p class="font-semibold text-text-primary">{donor.nombre}</p>
+          <p class="text-xs text-text-secondary">Donante desde {donor.donanteDesde}</p>
+        </div>
+      </div>
+      <ThemeToggle client:load />
+    </div>
+
+    {mainShelter && (
+      <div class="mt-6">
+        <MonthlyDonationCard
+          client:visible
+          shelterName={mainShelter.nombre}
+          monthlyAmount={30}
+          nextReminder="1 de septiembre"
+        />
+      </div>
+    )}
+
+    <StatRow
+      class="mt-6 !grid-cols-2"
+      stats={[
+        { value: formatSoles(totalDonado), label: "Total donado" },
+        { value: String(new Set(historial.map((h) => h.shelter.slug)).size), label: "Albergues apoyados" },
+      ]}
+    />
+
+    <section class="mt-8">
+      <h2 class="font-bold text-text-primary">Mis yapeos</h2>
+      <ul class="mt-3 divide-y divide-chip-bg overflow-hidden rounded-card bg-surface shadow-sm">
+        {historial.map((h) => (
+          <li class="flex items-center justify-between p-3">
+            <div>
+              <p class="text-sm font-semibold text-text-primary">{h.shelter.nombre}</p>
+              <p class="text-xs text-text-secondary">{h.fecha} · {h.constancia}</p>
+            </div>
+            <span class="font-semibold text-text-primary">{formatSoles(h.monto)}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    {following.length > 0 && (
+      <section class="mt-8">
+        <h2 class="font-bold text-text-primary">Siguiendo en adopción</h2>
+        <div class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
+          {following.map((dog) => (
+            <DogCard dog={dog} shelterSlug={mainShelter!.slug} />
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</Layout>

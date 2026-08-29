@@ -1,0 +1,42 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Badge from "../../../components/Badge.astro";
+import { Image } from "astro:assets";
+import { dataAdapter } from "../../../lib/data";
+
+// TODO: reemplazar por el albergue de la sesión autenticada.
+const shelters = await dataAdapter.getShelters();
+const shelter = shelters[0];
+const dogs = shelter ? await dataAdapter.getDogsByShelter(shelter.slug) : [];
+
+const statusVariant = {
+  Esterilizado: "esterilizado",
+  Vacunado: "vacunado",
+  "En proceso": "en-proceso",
+} as const;
+---
+
+<Layout title="Mis perritos" showBottomNav={false}>
+  <div class="mx-auto max-w-2xl px-4 pb-10 pt-6">
+    <div class="flex items-center justify-between">
+      <h1 class="text-xl font-bold text-text-primary">Mis perritos</h1>
+      <a href="/panel/perritos/nuevo" class="rounded-pill bg-accent-cta px-4 py-2 text-sm font-semibold text-white">
+        + Nuevo
+      </a>
+    </div>
+
+    <ul class="mt-6 divide-y divide-chip-bg overflow-hidden rounded-card bg-surface shadow-sm">
+      {dogs.map((dog) => (
+        <li class="flex items-center gap-3 p-3">
+          <Image src={dog.fotos[0]} alt={dog.nombre} width={56} height={56} class="h-14 w-14 rounded-input object-cover" />
+          <div class="min-w-0 flex-1">
+            <p class="font-semibold text-text-primary">{dog.nombre}</p>
+            <p class="text-xs text-text-secondary">{dog.edad} · {dog.tamano}</p>
+          </div>
+          <Badge variant={dog.adoptado ? "adoptada" : statusVariant[dog.estadoSalud]} />
+          {/* TODO: acciones de editar/marcar como adoptado — pendiente de backend de escritura */}
+        </li>
+      ))}
+    </ul>
+  </div>
+</Layout>

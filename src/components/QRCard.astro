@@ -1,0 +1,29 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  shelterName: string;
+  ruc: string;
+  yapeName: string;
+  qrImage: string;
+  class?: string;
+}
+
+const { shelterName, ruc, yapeName, qrImage, class: className = "" } = Astro.props;
+---
+
+<div class:list={["rounded-card bg-surface p-5 text-center shadow-lg", className]}>
+  <div class="mx-auto flex items-center justify-center gap-2">
+    {/* TODO: swap for the official Yape logo asset once licensed */}
+    <span class="rounded-pill bg-[#722282] px-3 py-1 text-xs font-bold text-white">Yape</span>
+    <p class="font-semibold text-text-primary">{shelterName}</p>
+  </div>
+  <p class="mt-1 text-xs text-text-secondary">RUC {ruc} · {yapeName}</p>
+  <Image
+    src={qrImage}
+    alt={`Código QR de Yape para donar a ${shelterName}`}
+    width={280}
+    height={280}
+    class="mx-auto mt-4 h-64 w-64 rounded-input border border-chip-bg object-cover"
+  />
+</div>

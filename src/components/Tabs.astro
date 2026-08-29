@@ -1,0 +1,18 @@
+---
+import TabsClient, { type TabDef } from "./islands/TabsClient";
+
+interface Props {
+  tabs: TabDef[];
+  defaultTab?: string;
+}
+
+const { tabs, defaultTab } = Astro.props;
+
+// Panels are rendered to static HTML at build time so only the tiny
+// tab-switching logic needs to hydrate on the client.
+const panels = await Promise.all(
+  tabs.map(async (tab) => ({ id: tab.id, html: await Astro.slots.render(tab.id) })),
+);
+---
+
+<TabsClient client:load tabs={tabs} panels={panels} defaultTab={defaultTab ?? tabs[0].id} />

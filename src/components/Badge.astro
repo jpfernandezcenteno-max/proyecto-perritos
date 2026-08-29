@@ -1,0 +1,53 @@
+---
+export type BadgeVariant =
+  | "verificado"
+  | "urgente"
+  | "esterilizado"
+  | "vacunado"
+  | "en-proceso"
+  | "adoptada";
+
+interface Props {
+  variant: BadgeVariant;
+  class?: string;
+}
+
+const { variant, class: className = "" } = Astro.props;
+
+const labels: Record<BadgeVariant, string> = {
+  verificado: "Verificado",
+  urgente: "Urgente",
+  esterilizado: "Esterilizado",
+  vacunado: "Vacunado",
+  "en-proceso": "En proceso",
+  adoptada: "¡Adoptada!",
+};
+
+const styles: Record<BadgeVariant, string> = {
+  verificado: "bg-success/10 text-success",
+  urgente: "bg-accent-urgent text-white",
+  esterilizado: "bg-success/10 text-success",
+  vacunado: "bg-success/10 text-success",
+  "en-proceso": "bg-chip-bg text-text-secondary",
+  adoptada: "bg-success text-white",
+};
+---
+
+<span
+  class:list={[
+    "inline-flex items-center gap-1 rounded-pill px-2.5 py-1 text-xs font-semibold",
+    styles[variant],
+    className,
+  ]}
+>
+  {variant === "verificado" && (
+    <svg viewBox="0 0 20 20" fill="currentColor" class="h-3.5 w-3.5" aria-hidden="true">
+      <path
+        fill-rule="evenodd"
+        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+        clip-rule="evenodd"
+      ></path>
+    </svg>
+  )}
+  {labels[variant]}
+</span>

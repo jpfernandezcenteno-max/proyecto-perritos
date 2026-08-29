@@ -1,0 +1,49 @@
+---
+import { Image } from "astro:assets";
+import Badge from "./Badge.astro";
+import ProgressBar from "./ProgressBar.astro";
+import type { Shelter } from "../lib/types";
+
+interface Props {
+  shelter: Shelter;
+  distanceKm?: number;
+  class?: string;
+}
+
+const { shelter, distanceKm, class: className = "" } = Astro.props;
+---
+
+<a
+  href={`/albergues/${shelter.slug}`}
+  class:list={[
+    "flex gap-3 rounded-card bg-surface p-3 shadow-sm transition hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-cta",
+    className,
+  ]}
+>
+  <Image
+    src={shelter.fotos[0]}
+    alt={`Foto de ${shelter.nombre}`}
+    width={112}
+    height={112}
+    class="h-24 w-24 shrink-0 rounded-input object-cover"
+  />
+  <div class="flex min-w-0 flex-1 flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-1.5">
+        <h3 class="truncate font-semibold text-text-primary">{shelter.nombre}</h3>
+        {shelter.verificado && <Badge variant="verificado" class="!p-0 !bg-transparent [&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-success" />}
+      </div>
+      <p class="mt-0.5 text-xs text-text-secondary">
+        {shelter.distrito}
+        {distanceKm !== undefined && ` · ${distanceKm.toFixed(1)} km`}
+        {` · ${shelter.totalPerritos} perritos`}
+      </p>
+      <div class="mt-2 flex flex-wrap gap-1.5">
+        {shelter.tags.map((tag) => (
+          <span class="rounded-pill bg-chip-bg px-2 py-0.5 text-xs text-text-secondary">{tag}</span>
+        ))}
+      </div>
+    </div>
+    <ProgressBar current={shelter.metaActual.montoRecaudado} goal={shelter.metaActual.montoMeta} showLabel={false} class="mt-2" />
+  </div>
+</a>

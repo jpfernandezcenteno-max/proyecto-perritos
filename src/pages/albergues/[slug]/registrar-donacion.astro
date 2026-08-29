@@ -1,0 +1,28 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import DonationAmountPicker from "../../../components/islands/DonationAmountPicker";
+import { dataAdapter } from "../../../lib/data";
+
+export async function getStaticPaths() {
+  const shelters = await dataAdapter.getShelters();
+  return shelters.map((shelter) => ({ params: { slug: shelter.slug }, props: { shelter } }));
+}
+
+const { shelter } = Astro.props;
+---
+
+<Layout title={`Registrar donación · ${shelter.nombre}`} showBottomNav={false}>
+  <Image
+    src={shelter.fotos[1] ?? shelter.fotos[0]}
+    alt={`Perritos de ${shelter.nombre}`}
+    width={1200}
+    height={500}
+    class="h-48 w-full object-cover sm:h-64"
+  />
+
+  <div class="mx-auto -mt-8 max-w-lg rounded-t-card bg-surface px-4 pb-10 pt-6 shadow-lg">
+    <div class="mx-auto mb-4 h-1.5 w-10 rounded-pill bg-chip-bg" aria-hidden="true"></div>
+    <DonationAmountPicker client:load shelterSlug={shelter.slug} shelterName={shelter.nombre} />
+  </div>
+</Layout>

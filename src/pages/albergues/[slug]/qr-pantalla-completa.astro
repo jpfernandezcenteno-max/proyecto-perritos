@@ -1,0 +1,54 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import BrightnessBoost from "../../../components/islands/BrightnessBoost";
+import { dataAdapter } from "../../../lib/data";
+
+export async function getStaticPaths() {
+  const shelters = await dataAdapter.getShelters();
+  return shelters.map((shelter) => ({ params: { slug: shelter.slug }, props: { shelter } }));
+}
+
+const { shelter } = Astro.props;
+---
+
+<Layout title={`QR · ${shelter.nombre}`} showHeader={false} showBottomNav={false}>
+  <div class="relative flex min-h-dvh flex-col items-center justify-center bg-text-primary px-6 py-8 text-center text-white">
+    <a
+      href={`/albergues/${shelter.slug}/qr`}
+      aria-label="Salir de pantalla completa"
+      class="absolute left-4 top-4 flex h-9 w-9 items-center justify-center rounded-pill bg-white/10"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-5 w-5">
+        <path d="M6 18 18 6M6 6l12 12" stroke-linecap="round"></path>
+      </svg>
+    </a>
+
+    <h1 class="relative z-10 text-lg font-semibold">{shelter.nombre}</h1>
+
+    <Image
+      src={shelter.qrImage}
+      alt={`Código QR de Yape para donar a ${shelter.nombre}`}
+      width={320}
+      height={320}
+      class="relative z-10 mt-6 h-72 w-72 rounded-input bg-white object-cover p-2"
+    />
+
+    <span class="relative z-10 mt-4 rounded-pill bg-white/15 px-3 py-1 text-xs font-semibold">Escanéalo con Yape</span>
+
+    <div class="relative z-10 mt-6 w-full max-w-xs">
+      <BrightnessBoost client:visible />
+    </div>
+
+    <p class="relative z-10 mt-4 max-w-xs text-xs text-white/60">
+      Wasitas no accede a tu app de Yape ni a tus datos de pago — solo te ayudamos a encontrar el QR correcto.
+    </p>
+
+    <a
+      href={`/albergues/${shelter.slug}/registrar-donacion`}
+      class="relative z-10 mt-6 w-full max-w-xs rounded-pill bg-white py-3 text-sm font-semibold text-text-primary"
+    >
+      Ya yapeé
+    </a>
+  </div>
+</Layout>

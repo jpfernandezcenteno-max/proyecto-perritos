@@ -1,0 +1,99 @@
+---
+import Layout from "../layouts/Layout.astro";
+import SearchBar from "../components/SearchBar.astro";
+import FilterChips from "../components/FilterChips.astro";
+import StatRow from "../components/StatRow.astro";
+import Badge from "../components/Badge.astro";
+import ProgressBar from "../components/ProgressBar.astro";
+import { dataAdapter } from "../lib/data";
+import { formatSoles } from "../lib/format";
+import { Image } from "astro:assets";
+
+const shelters = await dataAdapter.getShelters();
+
+const totalRecaudado = shelters.reduce((sum, s) => sum + s.metaActual.montoRecaudado, 0);
+const totalYapeos = shelters.reduce((sum, s) => sum + s.metaActual.numAportantes, 0);
+
+const featured =
+  shelters.find((s) => s.tags.includes("Urgente")) ??
+  [...shelters].sort(
+    (a, b) =>
+      a.metaActual.montoRecaudado / a.metaActual.montoMeta - b.metaActual.montoRecaudado / b.metaActual.montoMeta,
+  )[0];
+---
+
+<Layout title="Inicio">
+  <div class="mx-auto max-w-5xl px-4 pb-10 pt-6 lg:pt-10">
+    <section class="lg:grid lg:grid-cols-2 lg:items-center lg:gap-10">
+      <div>
+        <h1 class="text-3xl font-extrabold leading-tight text-text-primary sm:text-4xl lg:text-5xl">
+          Un yapeo<br />cambia el día<br />de un perrito.
+        </h1>
+        <p class="mt-3 max-w-md text-text-secondary">
+          Encuentra un albergue cerca de ti, escanea su QR de Yape y aporta lo que quieras.
+          Wasitas nunca toca el dinero.
+        </p>
+      </div>
+      <div class="mt-6 hidden aspect-square items-center justify-center rounded-card bg-chip-bg lg:flex">
+        <Image
+          src={shelters[0]?.fotos[0] ?? "https://picsum.photos/seed/wasitas-hero/900/900"}
+          alt="Perrito en un albergue de Wasitas"
+          width={600}
+          height={600}
+          class="h-full w-full rounded-card object-cover"
+        />
+      </div>
+    </section>
+
+    <SearchBar class="mt-6" />
+    <FilterChips class="mt-4" />
+
+    <StatRow
+      class="mt-6"
+      stats={[
+        { value: formatSoles(totalRecaudado), label: "Recaudado" },
+        { value: String(shelters.length), label: "Albergues" },
+        { value: String(totalYapeos), label: "Yapeos" },
+      ]}
+    />
+
+    {featured && (
+      <section class="mt-8">
+        <div class="mb-3 flex items-center justify-between">
+          <h2 class="text-lg font-bold text-text-primary">Necesitan ayuda hoy</h2>
+          <a href="/buscar?tag=Urgente" class="text-sm font-semibold text-text-secondary">Ver todos</a>
+        </div>
+
+        <a
+          href={`/albergues/${featured.slug}`}
+          class="block overflow-hidden rounded-card bg-surface shadow-sm transition hover:shadow-md"
+        >
+          <div class="relative">
+            <Image
+              src={featured.fotos[0]}
+              alt={`Foto de ${featured.nombre}`}
+              width={800}
+              height={450}
+              class="aspect-video w-full object-cover"
+            />
+            <Badge variant="urgente" class="absolute left-3 top-3" />
+          </div>
+          <div class="p-4">
+            <div class="flex items-center gap-1.5">
+              <h3 class="font-semibold text-text-primary">{featured.nombre}</h3>
+              {featured.verificado && (
+                <Badge variant="verificado" class="!bg-transparent !p-0 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-success" />
+              )}
+            </div>
+            <p class="mt-1 text-sm text-text-secondary">{featured.metaActual.descripcionCampania}</p>
+            <ProgressBar
+              current={featured.metaActual.montoRecaudado}
+              goal={featured.metaActual.montoMeta}
+              class="mt-3"
+            />
+          </div>
+        </a>
+      </section>
+    )}
+  </div>
+</Layout>

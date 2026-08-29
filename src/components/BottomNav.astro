@@ -1,0 +1,54 @@
+---
+const path = Astro.url.pathname;
+
+const items = [
+  {
+    href: "/",
+    label: "Inicio",
+    match: (p: string) => p === "/",
+    icon: "M3 11.5 12 4l9 7.5M5 10v9a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1v-9",
+  },
+  {
+    href: "/buscar",
+    label: "Buscar",
+    match: (p: string) => p.startsWith("/buscar"),
+    icon: "M10.5 18a7.5 7.5 0 100-15 7.5 7.5 0 000 15zM21 21l-4.35-4.35",
+  },
+  {
+    href: "/mapa",
+    label: "Mapa",
+    match: (p: string) => p.startsWith("/mapa"),
+    icon: "M9 4.5 3.5 6.5v13L9 17.5l6 2 5.5-2v-13l-5.5 2-6-2ZM9 4.5v13M15 6.5v13",
+  },
+  {
+    href: "/cuenta",
+    label: "Mi cuenta",
+    match: (p: string) => p.startsWith("/cuenta"),
+    icon: "M12 12a4 4 0 100-8 4 4 0 000 8zM4 20a8 8 0 0116 0",
+  },
+];
+---
+
+<nav
+  class="fixed inset-x-0 bottom-0 z-40 flex border-t border-chip-bg bg-surface/95 px-2 py-2 backdrop-blur lg:hidden"
+  aria-label="Navegación principal"
+>
+  {items.map((item) => {
+    const active = item.match(path);
+    return (
+      <a
+        href={item.href}
+        aria-current={active ? "page" : undefined}
+        class:list={[
+          "flex flex-1 flex-col items-center gap-1 rounded-input py-1.5 text-[11px] font-medium transition",
+          active ? "text-accent-cta" : "text-text-secondary",
+        ]}
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5" aria-hidden="true">
+          <path d={item.icon} stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        {item.label}
+      </a>
+    );
+  })}
+</nav>

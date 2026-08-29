@@ -1,0 +1,41 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<!--
+  TODO: sin mecanismo de autenticación definido todavía (ver "Pendiente de
+  definir"). Este formulario es solo el shell visual — falta conectar a un
+  proveedor de auth real (sesión por albergue) antes de usarlo en producción.
+-->
+<Layout title="Panel de albergues" showHeader={false} showBottomNav={false}>
+  <div class="mx-auto flex min-h-dvh max-w-sm flex-col justify-center px-4">
+    <h1 class="text-center text-2xl font-bold text-text-primary">Panel de albergues</h1>
+    <p class="mt-1 text-center text-sm text-text-secondary">Inicia sesión para gestionar tu albergue</p>
+
+    <form class="mt-6 space-y-3" method="post" action="#">
+      <div>
+        <label for="email" class="text-sm font-medium text-text-primary">Correo</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent-cta"
+        />
+      </div>
+      <div>
+        <label for="password" class="text-sm font-medium text-text-primary">Contraseña</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          required
+          class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent-cta"
+        />
+      </div>
+      <button type="submit" class="w-full rounded-pill bg-accent-cta py-3 text-sm font-semibold text-white">
+        Ingresar
+      </button>
+    </form>
+  </div>
+</Layout>

@@ -1,0 +1,35 @@
+---
+import { formatSoles } from "../lib/format";
+
+interface RankingItem {
+  slug: string;
+  nombre: string;
+  distrito: string;
+  numYapeos: number;
+  montoRecaudado: number;
+}
+
+interface Props {
+  items: RankingItem[];
+  class?: string;
+}
+
+const { items, class: className = "" } = Astro.props;
+---
+
+<ol class:list={["divide-y divide-chip-bg overflow-hidden rounded-card bg-surface shadow-sm", className]}>
+  {items.map((item, index) => (
+    <li>
+      <a href={`/albergues/${item.slug}`} class="flex items-center gap-3 p-3">
+        <span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-pill bg-chip-bg text-sm font-bold text-text-primary">
+          {index + 1}
+        </span>
+        <div class="min-w-0 flex-1">
+          <p class="truncate font-semibold text-text-primary">{item.nombre}</p>
+          <p class="text-xs text-text-secondary">{item.distrito} · {item.numYapeos} yapeos</p>
+        </div>
+        <span class="shrink-0 font-semibold text-text-primary">{formatSoles(item.montoRecaudado)}</span>
+      </a>
+    </li>
+  ))}
+</ol>

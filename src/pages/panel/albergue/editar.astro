@@ -1,0 +1,64 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { dataAdapter } from "../../../lib/data";
+
+// TODO: reemplazar por el albergue de la sesión autenticada.
+const shelters = await dataAdapter.getShelters();
+const shelter = shelters[0];
+---
+
+<Layout title="Editar albergue" showBottomNav={false}>
+  <div class="mx-auto max-w-xl px-4 pb-10 pt-6">
+    <h1 class="text-xl font-bold text-text-primary">Datos del albergue</h1>
+    <p class="mt-1 text-sm text-text-secondary">
+      Esta información aparece en tu perfil público y en el QR para yapear.
+    </p>
+
+    <!-- TODO: conectar a persistencia real (Content Collections es solo lectura en build time) -->
+    <form class="mt-6 space-y-4" method="post" action="#">
+      <div>
+        <label for="nombre" class="text-sm font-medium text-text-primary">Nombre del albergue</label>
+        <input id="nombre" name="nombre" type="text" value={shelter?.nombre} class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
+      </div>
+      <div>
+        <label for="descripcion" class="text-sm font-medium text-text-primary">Descripción</label>
+        <textarea id="descripcion" name="descripcion" rows={4} class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm">{shelter?.descripcion}</textarea>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for="distrito" class="text-sm font-medium text-text-primary">Distrito</label>
+          <input id="distrito" name="distrito" type="text" value={shelter?.distrito} class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
+        </div>
+        <div>
+          <label for="direccion" class="text-sm font-medium text-text-primary">Dirección</label>
+          <input id="direccion" name="direccion" type="text" value={shelter?.direccion} class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
+        </div>
+      </div>
+      <div>
+        {/* TODO: selector de mapa interactivo (Mapbox/Leaflet) para fijar lat/lng en vez de inputs planos */}
+        <label class="text-sm font-medium text-text-primary">Ubicación (lat, lng)</label>
+        <div class="mt-1 grid grid-cols-2 gap-3">
+          <input name="lat" type="number" step="any" value={shelter?.lat} class="rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
+          <input name="lng" type="number" step="any" value={shelter?.lng} class="rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for="ruc" class="text-sm font-medium text-text-primary">RUC</label>
+          <input id="ruc" name="ruc" type="text" value={shelter?.ruc} class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
+        </div>
+        <div>
+          <label for="whatsapp" class="text-sm font-medium text-text-primary">WhatsApp de contacto</label>
+          <input id="whatsapp" name="whatsapp" type="text" value={shelter?.contacto.whatsapp} class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm" />
+        </div>
+      </div>
+      <div>
+        <label for="qrImage" class="text-sm font-medium text-text-primary">Imagen del QR de Yape</label>
+        <input id="qrImage" name="qrImage" type="file" accept="image/*" class="mt-1 w-full text-sm" />
+      </div>
+      <button type="submit" class="w-full rounded-pill bg-accent-cta py-3 text-sm font-semibold text-white">
+        Guardar cambios
+      </button>
+    </form>
+  </div>
+</Layout>

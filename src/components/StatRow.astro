@@ -1,0 +1,22 @@
+---
+interface Stat {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  stats: Stat[];
+  class?: string;
+}
+
+const { stats, class: className = "" } = Astro.props;
+---
+
+<div class:list={["grid grid-cols-3 gap-3", className]}>
+  {stats.map((stat) => (
+    <div class="rounded-card bg-surface p-4 text-center shadow-sm">
+      <p class="text-xl font-bold text-text-primary sm:text-2xl">{stat.value}</p>
+      <p class="mt-1 text-xs text-text-secondary">{stat.label}</p>
+    </div>
+  ))}
+</div>

@@ -1,0 +1,37 @@
+---
+// Static quick-filter row (e.g. on Home): each chip navigates to /buscar
+// pre-filtered. For live multi-select filtering see the React FilterChips
+// used inside the SearchAndFilter island on /buscar.
+interface Props {
+  activeTag?: string;
+  class?: string;
+}
+
+const { activeTag = "Urgente", class: className = "" } = Astro.props;
+const tags = ["Urgente", "Comida", "Veterinaria", "Adopcion"] as const;
+const labels: Record<(typeof tags)[number], string> = {
+  Urgente: "Urgente",
+  Comida: "Comida",
+  Veterinaria: "Veterinaria",
+  Adopcion: "Adopción",
+};
+---
+
+<div class:list={["flex gap-2 overflow-x-auto", className]} role="list">
+  {tags.map((tag) => {
+    const active = tag === activeTag;
+    return (
+      <a
+        href={`/buscar?tag=${tag}`}
+        role="listitem"
+        aria-pressed={active}
+        class:list={[
+          "shrink-0 rounded-pill px-4 py-2 text-sm font-medium transition",
+          active ? "bg-accent-urgent text-white" : "bg-chip-bg text-text-primary",
+        ]}
+      >
+        {labels[tag]}
+      </a>
+    );
+  })}
+</div>

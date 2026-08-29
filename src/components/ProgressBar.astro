@@ -1,0 +1,32 @@
+---
+import { formatSoles, progressPercent } from "../lib/format";
+
+interface Props {
+  current: number;
+  goal: number;
+  showLabel?: boolean;
+  class?: string;
+}
+
+const { current, goal, showLabel = true, class: className = "" } = Astro.props;
+const percent = progressPercent(current, goal);
+const barColor = percent >= 100 ? "bg-success" : percent >= 50 ? "bg-accent-urgent" : "bg-accent-urgent/70";
+---
+
+<div class={className}>
+  {showLabel && (
+    <div class="mb-1.5 flex items-baseline justify-between text-sm">
+      <span class="font-semibold text-text-primary">{formatSoles(current)}</span>
+      <span class="text-text-secondary">de {formatSoles(goal)}</span>
+    </div>
+  )}
+  <div
+    class="h-2 w-full overflow-hidden rounded-pill bg-chip-bg"
+    role="progressbar"
+    aria-valuenow={percent}
+    aria-valuemin={0}
+    aria-valuemax={100}
+  >
+    <div class={`h-full rounded-pill ${barColor}`} style={`width: ${percent}%`}></div>
+  </div>
+</div>

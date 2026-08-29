@@ -1,0 +1,21 @@
+---
+interface Props {
+  userInitials?: string;
+  class?: string;
+}
+
+const { userInitials = "MJ", class: className = "" } = Astro.props;
+---
+
+<header class:list={["sticky top-0 z-40 flex items-center justify-between bg-bg/90 px-4 py-3 backdrop-blur", className]}>
+  <a href="/" class="flex items-baseline text-lg font-bold text-text-primary" aria-label="Wasitas, ir al inicio">
+    wasitas<span class="text-accent-urgent">.</span>
+  </a>
+  <a
+    href="/cuenta"
+    class="flex h-9 w-9 items-center justify-center rounded-pill bg-accent-cta text-sm font-semibold text-white"
+    aria-label="Mi cuenta"
+  >
+    {userInitials}
+  </a>
+</header>

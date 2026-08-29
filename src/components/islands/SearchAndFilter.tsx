@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import MapView, { type MapPin } from "./MapView";
+import { tagLabel } from "../../lib/format";
 
 export type ShelterTag = "Urgente" | "Comida" | "Veterinaria" | "Adopcion";
 
@@ -24,12 +25,6 @@ interface Props {
 }
 
 const ALL_TAGS: ShelterTag[] = ["Urgente", "Comida", "Veterinaria", "Adopcion"];
-const TAG_LABELS: Record<ShelterTag, string> = {
-  Urgente: "Urgente",
-  Comida: "Comida",
-  Veterinaria: "Veterinaria",
-  Adopcion: "Adopción",
-};
 
 function percent(current: number, goal: number) {
   if (goal <= 0) return 0;
@@ -109,7 +104,7 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
                 active ? "bg-accent-urgent text-white" : "bg-chip-bg text-text-primary"
               }`}
             >
-              {TAG_LABELS[tag]}
+              {tagLabel(tag)}
               {active && <span aria-hidden="true">×</span>}
             </button>
           );
@@ -173,7 +168,7 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
                       <div className="mt-2 flex flex-wrap gap-1.5">
                         {shelter.tags.map((tag) => (
                           <span key={tag} className="rounded-pill bg-chip-bg px-2 py-0.5 text-xs text-text-secondary">
-                            {TAG_LABELS[tag]}
+                            {tagLabel(tag)}
                           </span>
                         ))}
                       </div>

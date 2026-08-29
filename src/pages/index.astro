@@ -3,10 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import SearchBar from "../components/SearchBar.astro";
 import FilterChips from "../components/FilterChips.astro";
 import StatRow from "../components/StatRow.astro";
-import Badge from "../components/Badge.astro";
-import ProgressBar from "../components/ProgressBar.astro";
+import ShelterCard from "../components/ShelterCard.astro";
 import { dataAdapter } from "../lib/data";
-import { formatSoles } from "../lib/format";
+import { formatSoles, progressPercent } from "../lib/format";
 import { Image } from "astro:assets";
 
 const shelters = await dataAdapter.getShelters();
@@ -14,12 +13,18 @@ const shelters = await dataAdapter.getShelters();
 const totalRecaudado = shelters.reduce((sum, s) => sum + s.metaActual.montoRecaudado, 0);
 const totalYapeos = shelters.reduce((sum, s) => sum + s.metaActual.numAportantes, 0);
 
-const featured =
-  shelters.find((s) => s.tags.includes("Urgente")) ??
-  [...shelters].sort(
-    (a, b) =>
-      a.metaActual.montoRecaudado / a.metaActual.montoMeta - b.metaActual.montoRecaudado / b.metaActual.montoMeta,
-  )[0];
+// Los que más necesitan ayuda primero: urgentes, luego por menor % de meta cubierta.
+const needHelp = [...shelters]
+  .sort((a, b) => {
+    const aUrgent = a.tags.includes("Urgente") ? 0 : 1;
+    const bUrgent = b.tags.includes("Urgente") ? 0 : 1;
+    if (aUrgent !== bUrgent) return aUrgent - bUrgent;
+    return (
+      progressPercent(a.metaActual.montoRecaudado, a.metaActual.montoMeta) -
+      progressPercent(b.metaActual.montoRecaudado, b.metaActual.montoMeta)
+    );
+  })
+  .slice(0, 6);
 ---
 
 <Layout title="Inicio">
@@ -57,43 +62,30 @@ const featured =
       ]}
     />
 
-    {featured && (
+    {needHelp.length > 0 && (
       <section class="mt-8">
         <div class="mb-3 flex items-center justify-between">
           <h2 class="text-lg font-bold text-text-primary">Necesitan ayuda hoy</h2>
-          <a href="/buscar?tag=Urgente" class="text-sm font-semibold text-text-secondary">Ver todos</a>
+          <a href="/buscar" class="text-sm font-semibold text-text-secondary">Ver todos</a>
         </div>
 
-        <a
-          href={`/albergues/${featured.slug}`}
-          class="block overflow-hidden rounded-card bg-surface shadow-sm transition hover:shadow-md"
-        >
-          <div class="relative">
-            <Image
-              src={featured.fotos[0]}
-              alt={`Foto de ${featured.nombre}`}
-              width={800}
-              height={450}
-              class="aspect-video w-full object-cover"
-            />
-            <Badge variant="urgente" class="absolute left-3 top-3" />
-          </div>
-          <div class="p-4">
-            <div class="flex items-center gap-1.5">
-              <h3 class="font-semibold text-text-primary">{featured.nombre}</h3>
-              {featured.verificado && (
-                <Badge variant="verificado" class="!bg-transparent !p-0 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:text-success" />
-              )}
-            </div>
-            <p class="mt-1 text-sm text-text-secondary">{featured.metaActual.descripcionCampania}</p>
-            <ProgressBar
-              current={featured.metaActual.montoRecaudado}
-              goal={featured.metaActual.montoMeta}
-              class="mt-3"
-            />
-          </div>
-        </a>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {needHelp.map((shelter) => (
+            <ShelterCard shelter={shelter} />
+          ))}
+        </div>
       </section>
     )}
+
+    <section class="mt-8">
+      <div class="mb-3 flex items-center justify-between">
+        <h2 class="text-lg font-bold text-text-primary">Perritos en adopción</h2>
+        <a href="/buscar?tag=Adopcion" class="text-sm font-semibold text-text-secondary">Ver albergues</a>
+      </div>
+      <p class="rounded-card bg-surface p-4 text-sm text-text-secondary shadow-sm">
+        Cada albergue tiene su propia zona de adopción con los perritos listos para ir a casa —
+        entra al perfil de un albergue y revisa la pestaña <strong class="text-text-primary">Adopción</strong>.
+      </p>
+    </section>
   </div>
 </Layout>

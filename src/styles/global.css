@@ -43,14 +43,3 @@ body {
   --color-text-secondary: #a8a496;
   --color-chip-bg: #2b2b22;
 }
-
-/* Room for the fixed mobile bottom nav so page content never sits under it */
-.has-bottom-nav {
-  padding-bottom: 5.5rem;
-}
-
-@media (min-width: 1024px) {
-  .has-bottom-nav {
-    padding-bottom: 0;
-  }
-}

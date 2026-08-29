@@ -4,19 +4,10 @@ import Badge from "../../../../components/Badge.astro";
 import { dataAdapter } from "../../../../lib/data";
 import { Image } from "astro:assets";
 
-export async function getStaticPaths() {
-  const shelters = await dataAdapter.getShelters();
-  const paths = [];
-  for (const shelter of shelters) {
-    const dogs = await dataAdapter.getDogsByShelter(shelter.slug);
-    for (const dog of dogs) {
-      paths.push({ params: { slug: shelter.slug, perritoSlug: dog.slug }, props: { shelter, dog } });
-    }
-  }
-  return paths;
-}
-
-const { shelter, dog } = Astro.props;
+const { slug, perritoSlug } = Astro.params;
+const shelter = slug ? await dataAdapter.getShelterBySlug(slug) : undefined;
+const dog = shelter && perritoSlug ? await dataAdapter.getDog(shelter.slug, perritoSlug) : undefined;
+if (!shelter || !dog) return Astro.redirect("/buscar");
 
 const statusVariant = {
   Esterilizado: "esterilizado",

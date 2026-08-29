@@ -1,21 +1,138 @@
 ---
 interface Props {
-  userInitials?: string;
   class?: string;
 }
 
-const { userInitials = "MJ", class: className = "" } = Astro.props;
+const { class: className = "" } = Astro.props;
+const path = Astro.url.pathname;
+const user = Astro.locals.user ?? null;
+
+const links = [
+  { href: "/buscar", label: "Buscar", match: (p: string) => p.startsWith("/buscar") },
+  { href: "/mapa", label: "Mapa", match: (p: string) => p.startsWith("/mapa") },
+];
+
+const userInitials = user
+  ? (user.nombre || user.email).slice(0, 2).toUpperCase()
+  : "";
 ---
 
-<header class:list={["sticky top-0 z-40 flex items-center justify-between bg-bg/90 px-4 py-3 backdrop-blur", className]}>
-  <a href="/" class="flex items-baseline text-lg font-bold text-text-primary" aria-label="Wasitas, ir al inicio">
-    wasitas<span class="text-accent-urgent">.</span>
-  </a>
-  <a
-    href="/cuenta"
-    class="flex h-9 w-9 items-center justify-center rounded-pill bg-accent-cta text-sm font-semibold text-white"
-    aria-label="Mi cuenta"
-  >
-    {userInitials}
-  </a>
+<header class:list={["sticky top-0 z-40 border-b border-chip-bg/70 bg-bg/90 backdrop-blur", className]}>
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 lg:px-8">
+    <a href="/" class="flex items-baseline text-lg font-bold text-text-primary" aria-label="Wasitas, ir al inicio">
+      wasitas<span class="text-accent-urgent">.</span>
+    </a>
+
+    <nav class="hidden items-center gap-6 lg:flex" aria-label="Navegación principal">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          aria-current={link.match(path) ? "page" : undefined}
+          class:list={[
+            "text-sm font-semibold transition hover:text-text-primary",
+            link.match(path) ? "text-text-primary" : "text-text-secondary",
+          ]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a href="/panel/login" class="text-sm font-medium text-text-secondary transition hover:text-text-primary">
+        Soy un albergue
+      </a>
+    </nav>
+
+    <div class="hidden items-center gap-3 lg:flex">
+      {user ? (
+        <a
+          href="/cuenta"
+          aria-current={path.startsWith("/cuenta") ? "page" : undefined}
+          class="flex h-9 w-9 items-center justify-center rounded-pill bg-accent-cta text-sm font-semibold text-white"
+          aria-label="Mi cuenta"
+        >
+          {userInitials}
+        </a>
+      ) : (
+        <>
+          <a href="/login" class="text-sm font-semibold text-text-primary">Iniciar sesión</a>
+          <a href="/registro" class="rounded-pill bg-accent-cta px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">
+            Crear cuenta
+          </a>
+        </>
+      )}
+    </div>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      class="flex h-9 w-9 items-center justify-center rounded-input text-text-primary lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Abrir menú"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-6 w-6" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div id="mobile-menu" hidden class="border-t border-chip-bg bg-bg px-4 pb-4 lg:hidden">
+    <nav class="flex flex-col gap-1 pt-3" aria-label="Navegación móvil">
+      <a href="/" aria-current={path === "/" ? "page" : undefined} class:list={["rounded-input px-3 py-2.5 text-sm font-semibold", path === "/" ? "bg-chip-bg text-text-primary" : "text-text-secondary"]}>
+        Inicio
+      </a>
+      {links.map((link) => (
+        <a
+          href={link.href}
+          aria-current={link.match(path) ? "page" : undefined}
+          class:list={["rounded-input px-3 py-2.5 text-sm font-semibold", link.match(path) ? "bg-chip-bg text-text-primary" : "text-text-secondary"]}
+        >
+          {link.label}
+        </a>
+      ))}
+      {user && (
+        <a href="/cuenta" aria-current={path.startsWith("/cuenta") ? "page" : undefined} class:list={["rounded-input px-3 py-2.5 text-sm font-semibold", path.startsWith("/cuenta") ? "bg-chip-bg text-text-primary" : "text-text-secondary"]}>
+          Mi cuenta
+        </a>
+      )}
+      <a href="/panel/login" class="rounded-input px-3 py-2.5 text-sm font-medium text-text-secondary">
+        Soy un albergue
+      </a>
+    </nav>
+
+    {!user && (
+      <div class="mt-3 flex flex-col gap-2 border-t border-chip-bg pt-3">
+        <a href="/login" class="rounded-pill border border-chip-bg px-4 py-2.5 text-center text-sm font-semibold text-text-primary">
+          Iniciar sesión
+        </a>
+        <a href="/registro" class="rounded-pill bg-accent-cta px-4 py-2.5 text-center text-sm font-semibold text-white">
+          Crear cuenta
+        </a>
+      </div>
+    )}
+  </div>
 </header>
+
+<script>
+  function initHeaderMenu() {
+    const btn = document.getElementById("menu-toggle");
+    const menu = document.getElementById("mobile-menu");
+    if (!btn || !menu || btn.dataset.bound) return;
+    btn.dataset.bound = "true";
+
+    btn.addEventListener("click", () => {
+      const expanded = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", String(!expanded));
+      menu.hidden = expanded;
+    });
+
+    menu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        btn.setAttribute("aria-expanded", "false");
+        menu.hidden = true;
+      });
+    });
+  }
+
+  initHeaderMenu();
+  document.addEventListener("astro:page-load", initHeaderMenu);
+</script>

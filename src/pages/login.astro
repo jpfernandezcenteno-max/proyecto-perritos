@@ -1,0 +1,58 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { actions } from "astro:actions";
+
+if (Astro.locals.user) {
+  return Astro.redirect("/cuenta");
+}
+
+const result = Astro.getActionResult(actions.auth.login);
+if (result && !result.error) {
+  return Astro.redirect("/cuenta");
+}
+---
+
+<Layout title="Iniciar sesión">
+  <div class="mx-auto flex max-w-md flex-col px-4 py-10 lg:py-16">
+    <h1 class="text-2xl font-bold text-text-primary">Inicia sesión</h1>
+    <p class="mt-1 text-sm text-text-secondary">
+      Entra a tu cuenta para ver tu historial de yapeos y los perritos que sigues.
+    </p>
+
+    {result?.error && (
+      <p class="mt-4 rounded-input bg-accent-urgent/10 px-3 py-2.5 text-sm font-medium text-accent-urgent">
+        {result.error.message}
+      </p>
+    )}
+
+    <form method="POST" action={actions.auth.login} class="mt-6 flex flex-col gap-4">
+      <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
+        Correo
+        <input
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
+        />
+      </label>
+      <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
+        Contraseña
+        <input
+          name="password"
+          type="password"
+          required
+          autocomplete="current-password"
+          class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
+        />
+      </label>
+      <button type="submit" class="mt-2 rounded-pill bg-accent-cta px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90">
+        Iniciar sesión
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-text-secondary">
+      ¿No tienes cuenta? <a href="/registro" class="font-semibold text-text-primary">Créala aquí</a>
+    </p>
+  </div>
+</Layout>

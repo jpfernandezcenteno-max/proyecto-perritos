@@ -4,15 +4,12 @@ import { Image } from "astro:assets";
 import BrightnessBoost from "../../../components/islands/BrightnessBoost";
 import { dataAdapter } from "../../../lib/data";
 
-export async function getStaticPaths() {
-  const shelters = await dataAdapter.getShelters();
-  return shelters.map((shelter) => ({ params: { slug: shelter.slug }, props: { shelter } }));
-}
-
-const { shelter } = Astro.props;
+const { slug } = Astro.params;
+const shelter = slug ? await dataAdapter.getShelterBySlug(slug) : undefined;
+if (!shelter) return Astro.redirect("/buscar");
 ---
 
-<Layout title={`QR · ${shelter.nombre}`} showHeader={false} showBottomNav={false}>
+<Layout title={`QR · ${shelter.nombre}`} showHeader={false}>
   <div class="relative flex min-h-dvh flex-col items-center justify-center bg-text-primary px-6 py-8 text-center text-white">
     <a
       href={`/albergues/${shelter.slug}/qr`}

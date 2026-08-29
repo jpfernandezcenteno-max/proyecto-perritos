@@ -6,15 +6,12 @@ import TrustNote from "../../../components/TrustNote.astro";
 import QrActions from "../../../components/islands/QrActions";
 import { dataAdapter } from "../../../lib/data";
 
-export async function getStaticPaths() {
-  const shelters = await dataAdapter.getShelters();
-  return shelters.map((shelter) => ({ params: { slug: shelter.slug }, props: { shelter } }));
-}
-
-const { shelter } = Astro.props;
+const { slug } = Astro.params;
+const shelter = slug ? await dataAdapter.getShelterBySlug(slug) : undefined;
+if (!shelter) return Astro.redirect("/buscar");
 ---
 
-<Layout title={`Yapea a ${shelter.nombre}`} showHeader={false} showBottomNav={false}>
+<Layout title={`Yapea a ${shelter.nombre}`} showHeader={false}>
   <div class="min-h-dvh bg-text-primary px-4 py-6 text-white">
     <div class="mx-auto flex max-w-md items-center justify-between">
       <a href={`/albergues/${shelter.slug}`} aria-label="Cerrar" class="flex h-9 w-9 items-center justify-center rounded-pill bg-white/10">

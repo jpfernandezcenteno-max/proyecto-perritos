@@ -120,7 +120,7 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
         <p className="text-sm text-text-secondary">
           {results.length} {results.length === 1 ? "albergue" : "albergues"} · ordenados por cercanía
         </p>
-        <div className="flex rounded-pill bg-chip-bg p-1 text-xs font-semibold">
+        <div className="flex rounded-pill bg-chip-bg p-1 text-xs font-semibold lg:hidden">
           <button
             type="button"
             onClick={() => setView("lista")}
@@ -142,26 +142,26 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
         <p className="mt-8 rounded-card bg-surface p-6 text-center text-sm text-text-secondary">
           No encontramos albergues con esos filtros. Prueba con otra búsqueda.
         </p>
-      ) : view === "mapa" ? (
-        <MapView pins={pins} zoneLabel={`Lima Metropolitana · ${pins.length} pines`} heightClassName="mt-4 h-[28rem]" />
       ) : (
-        <>
-          <ul className="mt-4 space-y-3">
+        <div className="lg:grid lg:grid-cols-[1fr_22rem] lg:items-start lg:gap-6">
+          <ul
+            className={`mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-2 ${view === "mapa" ? "hidden lg:grid" : ""}`}
+          >
             {results.map((shelter) => (
               <li key={shelter.slug}>
                 <a
                   href={`/albergues/${shelter.slug}`}
-                  className="flex gap-3 rounded-card bg-surface p-3 shadow-sm transition hover:shadow-md"
+                  className="flex h-full flex-col overflow-hidden rounded-card bg-surface shadow-sm transition hover:shadow-md"
                 >
                   <img
                     src={shelter.foto}
                     alt={`Foto de ${shelter.nombre}`}
-                    width={112}
-                    height={112}
+                    width={320}
+                    height={180}
                     loading="lazy"
-                    className="h-24 w-24 shrink-0 rounded-input object-cover"
+                    className="aspect-video w-full shrink-0 object-cover"
                   />
-                  <div className="flex min-w-0 flex-1 flex-col justify-between">
+                  <div className="flex flex-1 flex-col justify-between p-3">
                     <div>
                       <div className="flex items-center gap-1.5">
                         <h3 className="truncate font-semibold text-text-primary">{shelter.nombre}</h3>
@@ -190,8 +190,14 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
             ))}
           </ul>
 
-          <MapView pins={pins} zoneLabel={`Lima Metropolitana · ${pins.length} pines`} heightClassName="mt-4 h-56" />
-        </>
+          <div className={`${view === "lista" ? "hidden lg:block" : ""} lg:sticky lg:top-20`}>
+            <MapView
+              pins={pins}
+              zoneLabel={`Lima Metropolitana · ${pins.length} pines`}
+              heightClassName="mt-4 h-[28rem] lg:h-[36rem]"
+            />
+          </div>
+        </div>
       )}
     </div>
   );

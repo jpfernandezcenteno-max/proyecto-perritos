@@ -22,6 +22,10 @@ const totalGastado = gastos.reduce((sum, g) => sum + g.monto, 0);
 const resenas = await dataAdapter.getResenasByShelter(shelter.slug);
 const promedioCalificacion =
   resenas.length > 0 ? resenas.reduce((sum, r) => sum + r.calificacion, 0) / resenas.length : 0;
+
+const validTabs = ["nosotros", "adopcion", "gastos", "resenas"];
+const tabParam = Astro.url.searchParams.get("tab");
+const defaultTab = tabParam && validTabs.includes(tabParam) ? tabParam : "nosotros";
 ---
 
 <Layout title={shelter.nombre} description={shelter.descripcion} ogImage={shelter.fotos[0]}>
@@ -81,6 +85,7 @@ const promedioCalificacion =
 
     <div class="mt-8 lg:mt-0">
       <Tabs
+        defaultTab={defaultTab}
         tabs={[
           { id: "nosotros", label: "Nosotros" },
           { id: "adopcion", label: "Adopción" },

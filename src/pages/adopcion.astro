@@ -1,0 +1,48 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ShelterCard from "../components/ShelterCard.astro";
+import { dataAdapter } from "../lib/data";
+
+const shelters = await dataAdapter.getShelters();
+
+const withAdoptables = await Promise.all(
+  shelters.map(async (shelter) => {
+    const dogs = await dataAdapter.getDogsByShelter(shelter.slug);
+    return { shelter, disponibles: dogs.filter((d) => !d.adoptado).length };
+  }),
+);
+
+const albergesConAdopcion = withAdoptables
+  .filter((s) => s.disponibles > 0)
+  .sort((a, b) => b.disponibles - a.disponibles);
+---
+
+<Layout
+  title="Adopción"
+  description="Albergues en Arequipa con perritos y gatitos listos para encontrar un hogar."
+>
+  <div class="mx-auto max-w-6xl px-4 pb-10 pt-6 lg:px-8 lg:pt-10">
+    <h1 class="text-2xl font-extrabold text-text-primary sm:text-3xl">Adopción</h1>
+    <p class="mt-2 max-w-xl text-text-secondary">
+      Estos albergues tienen mascotas listas para ir a casa. Entra al perfil de cada uno para
+      ver su zona de adopción completa.
+    </p>
+
+    {albergesConAdopcion.length > 0 ? (
+      <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {albergesConAdopcion.map(({ shelter, disponibles }) => (
+          <ShelterCard
+            shelter={shelter}
+            href={`/albergues/${shelter.slug}?tab=adopcion`}
+            footerNote={`${disponibles} ${disponibles === 1 ? "mascota" : "mascotas"} en adopción →`}
+            class="gsap-reveal"
+          />
+        ))}
+      </div>
+    ) : (
+      <p class="mt-8 rounded-card bg-surface p-6 text-center text-sm text-text-secondary">
+        Por ahora no hay mascotas disponibles para adopción. Vuelve pronto.
+      </p>
+    )}
+  </div>
+</Layout>

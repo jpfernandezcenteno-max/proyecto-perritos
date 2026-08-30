@@ -7,19 +7,10 @@ const { class: className = "" } = Astro.props;
 const path = Astro.url.pathname;
 const user = Astro.locals.user ?? null;
 
-const tagParam = Astro.url.searchParams.get("tag");
 const links = [
-  {
-    href: "/buscar",
-    label: "Buscar albergues",
-    match: (p: string) => p.startsWith("/buscar") && tagParam !== "Adopcion",
-  },
+  { href: "/buscar", label: "Buscar albergues", match: (p: string) => p.startsWith("/buscar") },
   { href: "/mapa", label: "Mapas de impacto", match: (p: string) => p.startsWith("/mapa") },
-  {
-    href: "/buscar?tag=Adopcion",
-    label: "Adopción",
-    match: (p: string) => p.startsWith("/buscar") && tagParam === "Adopcion",
-  },
+  { href: "/adopcion", label: "Adopción", match: (p: string) => p.startsWith("/adopcion") },
   { href: "/#como-funciona", label: "Cómo funciona", match: () => false },
 ];
 

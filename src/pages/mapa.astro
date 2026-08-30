@@ -68,22 +68,112 @@ const monthLabel = new Date().toLocaleDateString("es-PE", { month: "long" });
     <div class="lg:grid lg:grid-cols-[1fr_22rem] lg:items-start lg:gap-6">
       <MapView client:load pins={pins} zoneLabel={`Lima Metropolitana · ${pins.length} pines`} heightClassName="mt-4 h-96 lg:h-[36rem]" />
 
-      <div class="lg:sticky lg:top-20">
-        {/* TODO: convertir en un bottom sheet arrastrable (p.ej. vaul) en vez de una sección fija, en mobile */}
-        <section class="mt-6 rounded-card bg-surface p-4 shadow-sm lg:mt-4">
-          <h2 class="font-bold text-text-primary">Top albergues de {monthLabel}</h2>
-          <RankingList items={ranking} class="mt-3" />
-        </section>
+      <div
+        id="map-sheet"
+        class="fixed inset-x-0 bottom-0 z-30 rounded-t-card bg-surface shadow-lg lg:static lg:z-auto lg:rounded-card lg:shadow-none lg:sticky lg:top-20"
+      >
+        <button
+          id="map-sheet-handle"
+          type="button"
+          aria-expanded="false"
+          aria-label="Arrastra o toca para expandir el ranking de albergues"
+          class="flex w-full touch-none flex-col items-center gap-2 pb-1 pt-2.5 lg:hidden"
+        >
+          <span class="h-1.5 w-10 rounded-pill bg-chip-bg" aria-hidden="true"></span>
+        </button>
 
-        <StatRow
-          class="mt-4"
-          stats={[
-            { value: formatSoles(totalMonto), label: "Total yapeado" },
-            { value: String(totalPersonas), label: "Personas" },
-            { value: String(distritos), label: "Distritos" },
-          ]}
-        />
+        <div class="max-h-[65vh] overflow-y-auto px-4 pb-6 lg:mt-4 lg:max-h-none lg:overflow-visible lg:px-0 lg:pb-0">
+          <section class="rounded-card bg-surface p-4 shadow-sm lg:shadow-sm">
+            <h2 class="font-bold text-text-primary">Top albergues de {monthLabel}</h2>
+            <RankingList items={ranking} class="mt-3" />
+          </section>
+
+          <StatRow
+            class="mt-4"
+            stats={[
+              { value: formatSoles(totalMonto), label: "Total yapeado" },
+              { value: String(totalPersonas), label: "Personas" },
+              { value: String(distritos), label: "Distritos" },
+            ]}
+          />
+        </div>
       </div>
     </div>
   </div>
 </Layout>
+
+<script>
+  function initMapSheet() {
+    const sheetEl = document.getElementById("map-sheet");
+    const handleEl = document.getElementById("map-sheet-handle");
+    if (!sheetEl || !handleEl || sheetEl.dataset.bound === "true") return;
+    const sheet = sheetEl;
+    const handle = handleEl;
+    sheet.dataset.bound = "true";
+
+    const COLLAPSED_VISIBLE_PX = 96;
+    let expanded = false;
+    let dragging = false;
+    let moved = false;
+    let startY = 0;
+    let startOffset = 0;
+
+    const isMobile = () => window.matchMedia("(max-width: 1023px)").matches;
+    const maxOffset = () => Math.max(sheet.offsetHeight - COLLAPSED_VISIBLE_PX, 0);
+
+    function apply(px: number, animate: boolean) {
+      sheet.style.transition = animate ? "transform 220ms ease" : "none";
+      sheet.style.transform = `translateY(${px}px)`;
+    }
+
+    function snap(toExpanded: boolean) {
+      expanded = toExpanded;
+      apply(expanded ? 0 : maxOffset(), true);
+      handle.setAttribute("aria-expanded", String(expanded));
+    }
+
+    if (isMobile()) snap(false);
+
+    window.addEventListener("resize", () => {
+      if (!isMobile()) {
+        sheet.style.transform = "";
+      } else {
+        snap(expanded);
+      }
+    });
+
+    handle.addEventListener("pointerdown", (e) => {
+      if (!isMobile()) return;
+      dragging = true;
+      moved = false;
+      startY = e.clientY;
+      startOffset = expanded ? 0 : maxOffset();
+      handle.setPointerCapture(e.pointerId);
+    });
+
+    handle.addEventListener("pointermove", (e) => {
+      if (!dragging) return;
+      const delta = e.clientY - startY;
+      if (Math.abs(delta) > 4) moved = true;
+      const next = Math.min(Math.max(startOffset + delta, 0), maxOffset());
+      apply(next, false);
+    });
+
+    function endDrag() {
+      if (!dragging) return;
+      dragging = false;
+      if (!moved) {
+        snap(!expanded);
+        return;
+      }
+      const current = Number(sheet.style.transform.match(/-?\d+(\.\d+)?/)?.[0] ?? 0);
+      snap(current < maxOffset() / 2);
+    }
+
+    handle.addEventListener("pointerup", endDrag);
+    handle.addEventListener("pointercancel", endDrag);
+  }
+
+  initMapSheet();
+  document.addEventListener("astro:page-load", initMapSheet);
+</script>

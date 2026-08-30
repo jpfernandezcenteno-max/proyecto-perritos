@@ -7,9 +7,9 @@ tamano: "Pequeño"
 raza: "Mestizo"
 temperamento: "Cariñoso y curioso, le gusta dormir al sol"
 fotos:
-  - "https://picsum.photos/seed/michi-1/900/900"
-  - "https://picsum.photos/seed/michi-2/900/900"
-  - "https://picsum.photos/seed/michi-3/900/900"
+  - "https://cataas.com/cat?width=900&height=900"
+  - "https://cataas.com/cat?width=900&height=900"
+  - "https://cataas.com/cat?width=900&height=900"
 estadoSalud: "Esterilizado"
 disponible: true
 adoptado: false

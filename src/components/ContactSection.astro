@@ -1,0 +1,100 @@
+---
+import { Image } from "astro:assets";
+---
+
+<section id="contacto" class="mx-auto max-w-6xl scroll-mt-20 px-4 py-12 lg:px-8">
+  <div class="overflow-hidden rounded-card bg-surface shadow-sm lg:grid lg:grid-cols-2 lg:items-center">
+    <div class="relative flex h-56 items-end justify-center gap-3 overflow-hidden bg-chip-bg p-4 lg:h-full lg:min-h-[26rem]">
+      <Image
+        src="https://placedog.net/500/620?id=21"
+        alt="Perrito feliz"
+        width={260}
+        height={320}
+        class="h-44 w-32 -rotate-3 rounded-card border-4 border-surface object-cover shadow-md sm:h-52 sm:w-40 lg:h-64 lg:w-48"
+      />
+      <Image
+        src="https://cataas.com/cat?width=500&height=620"
+        alt="Gatito curioso"
+        width={260}
+        height={320}
+        class="h-52 w-36 rotate-3 rounded-card border-4 border-surface object-cover shadow-md sm:h-60 sm:w-44 lg:h-72 lg:w-52"
+      />
+    </div>
+
+    <div class="p-6 sm:p-8 lg:p-10">
+      <h2 class="text-2xl font-extrabold text-text-primary sm:text-3xl">¿Tienes una pregunta?</h2>
+      <p class="mt-2 text-sm text-text-secondary">
+        Escríbenos si quieres saber más sobre un albergue, reportar un problema, o si tu
+        albergue quiere sumarse a Wasitas. Te respondemos por correo.
+      </p>
+
+      <form id="contact-form" class="mt-6 flex flex-col gap-4">
+        <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
+          Nombre
+          <input
+            name="nombre"
+            type="text"
+            required
+            class="rounded-input border border-chip-bg bg-bg px-3 py-2.5 text-sm text-text-primary focus:border-accent-cta focus:outline-none"
+          />
+        </label>
+        <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
+          Correo
+          <input
+            name="correo"
+            type="email"
+            required
+            class="rounded-input border border-chip-bg bg-bg px-3 py-2.5 text-sm text-text-primary focus:border-accent-cta focus:outline-none"
+          />
+        </label>
+        <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
+          Mensaje
+          <textarea
+            name="mensaje"
+            required
+            rows={3}
+            class="resize-none rounded-input border border-chip-bg bg-bg px-3 py-2.5 text-sm text-text-primary focus:border-accent-cta focus:outline-none"
+          ></textarea>
+        </label>
+
+        <button
+          type="submit"
+          class="mt-1 rounded-pill bg-accent-cta px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+        >
+          Enviar mensaje
+        </button>
+
+        <p id="contact-form-success" hidden class="rounded-input bg-success/10 px-3 py-2.5 text-sm font-medium text-success">
+          ¡Gracias! Se abrió tu correo con el mensaje listo para enviar.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  function initContactForm() {
+    const form = document.getElementById("contact-form") as HTMLFormElement | null;
+    const success = document.getElementById("contact-form-success");
+    if (!form || !success || form.dataset.bound === "true") return;
+    form.dataset.bound = "true";
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const nombre = String(data.get("nombre") ?? "");
+      const correo = String(data.get("correo") ?? "");
+      const mensaje = String(data.get("mensaje") ?? "");
+
+      const subject = encodeURIComponent(`Mensaje de ${nombre} desde Wasitas`);
+      const body = encodeURIComponent(`${mensaje}\n\nResponder a: ${correo}`);
+      window.location.href = `mailto:contacto@wasitas.pe?subject=${subject}&body=${body}`;
+
+      success.hidden = false;
+      form.reset();
+    });
+  }
+
+  initContactForm();
+  document.addEventListener("astro:page-load", initContactForm);
+</script>

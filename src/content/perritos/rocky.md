@@ -7,9 +7,9 @@ tamano: "Grande"
 raza: "Mestizo"
 temperamento: "Protector, necesita espacio abierto"
 fotos:
-  - "https://picsum.photos/seed/rocky-1/900/900"
-  - "https://picsum.photos/seed/rocky-2/900/900"
-  - "https://picsum.photos/seed/rocky-3/900/900"
+  - "https://placedog.net/900/900?id=11"
+  - "https://placedog.net/900/900?id=12"
+  - "https://placedog.net/900/900?id=13"
 estadoSalud: "En proceso"
 disponible: false
 adoptado: false

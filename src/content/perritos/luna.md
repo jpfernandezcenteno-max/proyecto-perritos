@@ -7,9 +7,9 @@ tamano: "Pequeño"
 raza: "Mestiza"
 temperamento: "Tranquila, ideal para departamento"
 fotos:
-  - "https://picsum.photos/seed/luna-1/900/900"
-  - "https://picsum.photos/seed/luna-2/900/900"
-  - "https://picsum.photos/seed/luna-3/900/900"
+  - "https://placedog.net/900/900?id=14"
+  - "https://placedog.net/900/900?id=15"
+  - "https://placedog.net/900/900?id=16"
 estadoSalud: "Esterilizado"
 disponible: true
 adoptado: false

@@ -6,9 +6,9 @@ direccion: "Av. Los Álamos 245, Surco"
 lat: -12.1352
 lng: -76.9902
 fotos:
-  - "https://picsum.photos/seed/patitas-1/1200/900"
-  - "https://picsum.photos/seed/patitas-2/1200/900"
-  - "https://picsum.photos/seed/patitas-3/1200/900"
+  - "https://placedog.net/1200/900?id=1"
+  - "https://placedog.net/1200/900?id=2"
+  - "https://placedog.net/1200/900?id=3"
 qrImage: "https://picsum.photos/seed/patitas-qr/600/600"
 yapeNombre: "Albergue Patitas Felices"
 ruc: "20601234567"

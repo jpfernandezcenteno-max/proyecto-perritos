@@ -19,10 +19,12 @@ export default defineConfig({
 
   image: {
     // TODO: swap/remove once real shelter photo hosting is decided.
-    // picsum.photos redirects to fastly.picsum.photos for the actual asset.
+    // placedog.net / cataas.com stand in for real pet photos in mock content.
     remotePatterns: [
       { protocol: 'https', hostname: 'picsum.photos' },
-      { protocol: 'https', hostname: 'fastly.picsum.photos' }
+      { protocol: 'https', hostname: 'fastly.picsum.photos' },
+      { protocol: 'https', hostname: 'placedog.net' },
+      { protocol: 'https', hostname: 'cataas.com' }
     ]
   },
 

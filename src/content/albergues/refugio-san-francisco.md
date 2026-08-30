@@ -6,8 +6,8 @@ direccion: "Carretera Central km 8, Ate"
 lat: -12.0296
 lng: -76.9186
 fotos:
-  - "https://picsum.photos/seed/sanfrancisco-1/1200/900"
-  - "https://picsum.photos/seed/sanfrancisco-2/1200/900"
+  - "https://placedog.net/1200/900?id=6"
+  - "https://placedog.net/1200/900?id=7"
 qrImage: "https://picsum.photos/seed/sanfrancisco-qr/600/600"
 yapeNombre: "Refugio San Francisco"
 ruc: "20604455667"

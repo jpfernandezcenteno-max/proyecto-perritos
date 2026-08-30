@@ -1,0 +1,42 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-chip-bg bg-surface">
+  <div class="mx-auto max-w-6xl px-4 py-10 lg:px-8">
+    <div class="flex flex-col gap-8 sm:flex-row sm:justify-between">
+      <div class="max-w-xs">
+        <a href="/" class="text-lg font-bold text-text-primary">
+          wasitas<span class="text-accent-urgent">.</span>
+        </a>
+        <p class="mt-2 text-sm text-text-secondary">
+          Un yapeo cambia el día de un perrito. Conectamos a personas con albergues de
+          perros y gatos en Perú, sin comisiones.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-8 sm:gap-12">
+        <div>
+          <h3 class="font-heading text-sm font-bold text-text-primary">Explorar</h3>
+          <ul class="mt-3 flex flex-col gap-2 text-sm text-text-secondary">
+            <li><a href="/buscar" class="hover:text-text-primary">Buscar albergues</a></li>
+            <li><a href="/mapa" class="hover:text-text-primary">Mapa y ranking</a></li>
+            <li><a href="/panel/login" class="hover:text-text-primary">Soy un albergue</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-heading text-sm font-bold text-text-primary">Ayuda</h3>
+          <ul class="mt-3 flex flex-col gap-2 text-sm text-text-secondary">
+            <li><a href="/#contacto" class="hover:text-text-primary">Contáctanos</a></li>
+            <li><a href="/registro" class="hover:text-text-primary">Crear cuenta</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-8 border-t border-chip-bg pt-6 text-xs text-text-secondary">
+      © {year} Wasitas. Hecho con cariño para los perritos y gatitos de Perú.
+    </p>
+  </div>
+</footer>

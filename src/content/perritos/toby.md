@@ -7,9 +7,9 @@ tamano: "Mediano"
 raza: "Mestizo"
 temperamento: "Muy activo, le encanta pasear"
 fotos:
-  - "https://picsum.photos/seed/toby-1/900/900"
-  - "https://picsum.photos/seed/toby-2/900/900"
-  - "https://picsum.photos/seed/toby-3/900/900"
+  - "https://placedog.net/900/900?id=17"
+  - "https://placedog.net/900/900?id=18"
+  - "https://placedog.net/900/900?id=19"
 estadoSalud: "Vacunado"
 disponible: true
 adoptado: false

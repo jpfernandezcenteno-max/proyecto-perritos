@@ -5,6 +5,8 @@ import FilterChips from "../components/FilterChips.astro";
 import StatRow from "../components/StatRow.astro";
 import ShelterCard from "../components/ShelterCard.astro";
 import DogCard from "../components/DogCard.astro";
+import WhyWasitas from "../components/WhyWasitas.astro";
+import ContactSection from "../components/ContactSection.astro";
 import { dataAdapter } from "../lib/data";
 import { formatSoles, progressPercent } from "../lib/format";
 import { Image } from "astro:assets";
@@ -52,7 +54,7 @@ const needHelp = [...shelters]
       </div>
       <div class="mt-6 hidden aspect-square items-center justify-center rounded-card bg-chip-bg lg:flex">
         <Image
-          src={shelters[0]?.fotos[0] ?? "https://picsum.photos/seed/wasitas-hero/900/900"}
+          src={shelters[0]?.fotos[0] ?? "https://placedog.net/900/900?id=20"}
           alt="Perrito en un albergue de Wasitas"
           width={600}
           height={600}
@@ -102,4 +104,7 @@ const needHelp = [...shelters]
       </section>
     )}
   </div>
+
+  <WhyWasitas />
+  <ContactSection />
 </Layout>

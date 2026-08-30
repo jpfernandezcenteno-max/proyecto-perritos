@@ -7,11 +7,11 @@ tamano: "Mediano"
 raza: "Mestizo"
 temperamento: "Independiente, ideal para departamento"
 fotos:
-  - "https://picsum.photos/seed/salem-1/900/900"
-  - "https://picsum.photos/seed/salem-2/900/900"
-  - "https://picsum.photos/seed/salem-3/900/900"
-  - "https://picsum.photos/seed/salem-4/900/900"
-  - "https://picsum.photos/seed/salem-5/900/900"
+  - "https://cataas.com/cat?width=900&height=900"
+  - "https://cataas.com/cat?width=900&height=900"
+  - "https://cataas.com/cat?width=900&height=900"
+  - "https://cataas.com/cat?width=900&height=900"
+  - "https://cataas.com/cat?width=900&height=900"
 estadoSalud: "Vacunado"
 disponible: true
 adoptado: false

@@ -6,8 +6,8 @@ direccion: "Jr. Las Camelias 512, Los Olivos"
 lat: -11.9822
 lng: -77.0714
 fotos:
-  - "https://picsum.photos/seed/huellitas-1/1200/900"
-  - "https://picsum.photos/seed/huellitas-2/1200/900"
+  - "https://placedog.net/1200/900?id=4"
+  - "https://placedog.net/1200/900?id=5"
 qrImage: "https://picsum.photos/seed/huellitas-qr/600/600"
 yapeNombre: "Huellitas de Amor ONG"
 ruc: "20609876543"

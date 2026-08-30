@@ -7,9 +7,9 @@ tamano: "Pequeño"
 raza: "Mestizo"
 temperamento: "Cariñoso y curioso, le gusta dormir al sol"
 fotos:
-  - "https://cataas.com/cat?width=900&height=900"
-  - "https://cataas.com/cat?width=900&height=900"
-  - "https://cataas.com/cat?width=900&height=900"
+  - "/images/pets/cat-1.jpg"
+  - "/images/pets/cat-2.png"
+  - "/images/pets/cat-3.jpg"
 estadoSalud: "Esterilizado"
 disponible: true
 adoptado: false

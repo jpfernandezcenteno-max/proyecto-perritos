@@ -7,11 +7,11 @@ tamano: "Mediano"
 raza: "Mestizo"
 temperamento: "Independiente, ideal para departamento"
 fotos:
-  - "https://cataas.com/cat?width=900&height=900"
-  - "https://cataas.com/cat?width=900&height=900"
-  - "https://cataas.com/cat?width=900&height=900"
-  - "https://cataas.com/cat?width=900&height=900"
-  - "https://cataas.com/cat?width=900&height=900"
+  - "/images/pets/cat-4.jpg"
+  - "/images/pets/cat-5.jpg"
+  - "/images/pets/cat-6.jpg"
+  - "/images/pets/cat-7.jpg"
+  - "/images/pets/cat-8.jpg"
 estadoSalud: "Vacunado"
 disponible: true
 adoptado: false

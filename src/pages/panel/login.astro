@@ -1,5 +1,21 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+const beneficios = [
+  {
+    icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+    text: "Publica tu QR de Yape y recibe aportes directo, sin comisiones",
+  },
+  {
+    icon: "M12 12a4 4 0 100-8 4 4 0 000 8zM4 20a8 8 0 0116 0",
+    text: "Sube a tus perritos y gatitos disponibles para adopción",
+  },
+  {
+    icon: "M4 4h16v4H4zM6 10h4v10H6zM14 10h4v10h-4zM4 20h16",
+    text: "Muestra en qué usas cada sol con rendición de cuentas real",
+  },
+];
 ---
 
 <!--
@@ -7,35 +23,76 @@ import Layout from "../../layouts/Layout.astro";
   definir"). Este formulario es solo el shell visual — falta conectar a un
   proveedor de auth real (sesión por albergue) antes de usarlo en producción.
 -->
-<Layout title="Panel de albergues" showHeader={false}>
-  <div class="mx-auto flex min-h-dvh max-w-sm flex-col justify-center px-4">
-    <h1 class="text-center text-2xl font-bold text-text-primary">Panel de albergues</h1>
-    <p class="mt-1 text-center text-sm text-text-secondary">Inicia sesión para gestionar tu albergue</p>
+<Layout title="Panel de albergues" description="Gestiona el perfil de tu albergue en Wasitas: QR de Yape, mascotas en adopción y rendición de cuentas.">
+  <div class="mx-auto max-w-6xl px-4 py-10 lg:grid lg:grid-cols-2 lg:items-center lg:gap-12 lg:py-16">
+    <div data-animate="hero-item">
+      <span class="rounded-pill bg-chip-bg px-3 py-1 text-xs font-semibold text-accent-cta">Para albergues</span>
+      <h1 class="mt-3 text-3xl font-extrabold leading-tight text-text-primary sm:text-4xl">
+        Haz que cada yapeo llegue directo a tu albergue.
+      </h1>
+      <p class="mt-3 max-w-md text-text-secondary">
+        Gestiona tu perfil, comparte tu QR de Yape y muestra tu impacto — gratis para siempre,
+        Wasitas nunca toca el dinero.
+      </p>
 
-    <form class="mt-6 space-y-3" method="post" action="#">
-      <div>
-        <label for="email" class="text-sm font-medium text-text-primary">Correo</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          required
-          class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent-cta"
+      <ul class="mt-6 flex flex-col gap-3">
+        {beneficios.map((b) => (
+          <li class="flex items-start gap-3">
+            <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-pill bg-chip-bg text-accent-cta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-4 w-4" aria-hidden="true">
+                <path d={b.icon} stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="pt-1 text-sm text-text-primary">{b.text}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="mt-6 overflow-hidden rounded-card">
+        <Image
+          src="https://placedog.net/900/500?id=30"
+          alt="Perrito de uno de los albergues en Wasitas"
+          width={900}
+          height={500}
+          class="aspect-video w-full object-cover"
         />
       </div>
-      <div>
-        <label for="password" class="text-sm font-medium text-text-primary">Contraseña</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          required
-          class="mt-1 w-full rounded-input border border-chip-bg bg-surface px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent-cta"
-        />
-      </div>
-      <button type="submit" class="w-full rounded-pill bg-accent-cta py-3 text-sm font-semibold text-white">
-        Ingresar
-      </button>
-    </form>
+
+      <p class="mt-4 text-sm text-text-secondary">
+        ¿Tu albergue todavía no está en Wasitas?{" "}
+        <a href="/#contacto" class="font-semibold text-accent-cta">Escríbenos</a>.
+      </p>
+    </div>
+
+    <div data-animate="hero-item" class="mt-8 rounded-card bg-surface p-6 shadow-sm lg:mt-0 lg:p-8">
+      <h2 class="text-xl font-bold text-text-primary">Inicia sesión</h2>
+      <p class="mt-1 text-sm text-text-secondary">Ingresa a tu panel para gestionar tu albergue</p>
+
+      <form class="mt-6 space-y-3" method="post" action="#">
+        <div>
+          <label for="email" class="text-sm font-medium text-text-primary">Correo</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            class="mt-1 w-full rounded-input border border-chip-bg bg-bg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent-cta"
+          />
+        </div>
+        <div>
+          <label for="password" class="text-sm font-medium text-text-primary">Contraseña</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            required
+            class="mt-1 w-full rounded-input border border-chip-bg bg-bg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-accent-cta"
+          />
+        </div>
+        <button type="submit" class="w-full rounded-pill bg-accent-cta py-3 text-sm font-semibold text-white transition hover:opacity-90">
+          Ingresar
+        </button>
+      </form>
+    </div>
   </div>
 </Layout>

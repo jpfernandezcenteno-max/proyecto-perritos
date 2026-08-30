@@ -51,7 +51,7 @@ const features: Feature[] = [
 
   <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
     {features.map((feature) => (
-      <div class:list={["rounded-card p-5 text-white shadow-sm", bgClass[feature.color]]}>
+      <div class:list={["gsap-reveal rounded-card p-5 text-white shadow-sm", bgClass[feature.color]]}>
         <span class="flex h-11 w-11 items-center justify-center rounded-pill bg-white/20">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-6 w-6" aria-hidden="true">
             <path d={feature.icon} stroke-linecap="round" stroke-linejoin="round"></path>

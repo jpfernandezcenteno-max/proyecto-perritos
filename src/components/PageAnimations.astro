@@ -1,0 +1,52 @@
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initAnimations() {
+    // Clear triggers from the previous page so they don't pile up across
+    // client-side navigations (Astro's ClientRouter reuses the document).
+    ScrollTrigger.getAll().forEach((t) => t.kill());
+
+    const heroItems = gsap.utils.toArray<HTMLElement>("[data-animate='hero-item']");
+    if (heroItems.length) {
+      gsap.set(heroItems, { opacity: 0, y: 24 });
+      gsap.to(heroItems, {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: "power2.out",
+        stagger: 0.09,
+        delay: 0.1,
+      });
+    }
+
+    const bones = gsap.utils.toArray<HTMLElement>("[data-animate='bone-spin']");
+    bones.forEach((bone) => {
+      gsap.set(bone, { opacity: 0, scale: 0.4, rotate: -25 });
+      gsap.to(bone, {
+        opacity: 1,
+        scale: 1,
+        rotate: 380,
+        duration: 1,
+        ease: "back.out(1.7)",
+        delay: 0.3,
+      });
+    });
+
+    const reveals = gsap.utils.toArray<HTMLElement>(".gsap-reveal");
+    reveals.forEach((el, i) => {
+      gsap.set(el, { opacity: 0, y: 28 });
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top 88%",
+        onEnter: () => gsap.to(el, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out", delay: (i % 3) * 0.06 }),
+        onLeaveBack: () => gsap.to(el, { opacity: 0, y: 28, duration: 0.3 }),
+      });
+    });
+  }
+
+  initAnimations();
+  document.addEventListener("astro:page-load", initAnimations);
+</script>

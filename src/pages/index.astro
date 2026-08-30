@@ -42,12 +42,29 @@ const needHelp = [...shelters]
 
 <Layout title="Inicio">
   <div class="mx-auto max-w-5xl px-4 pb-10 pt-6 lg:pt-10">
-    <section class="lg:grid lg:grid-cols-2 lg:items-center lg:gap-10">
+    <section class="relative lg:grid lg:grid-cols-2 lg:items-center lg:gap-10">
+      <svg
+        data-animate="bone-spin"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        class="absolute -top-2 left-1/2 h-8 w-8 -translate-x-16 text-joy-yellow sm:h-10 sm:w-10 lg:left-auto lg:right-10 lg:top-6 lg:translate-x-0"
+        aria-hidden="true"
+      >
+        <rect x="4" y="9" width="16" height="6" rx="3"></rect>
+        <circle cx="4" cy="7.5" r="2.5"></circle>
+        <circle cx="4" cy="16.5" r="2.5"></circle>
+        <circle cx="20" cy="7.5" r="2.5"></circle>
+        <circle cx="20" cy="16.5" r="2.5"></circle>
+      </svg>
+
       <div>
-        <h1 class="text-3xl font-extrabold leading-tight text-text-primary sm:text-4xl lg:text-5xl">
+        <h1 data-animate="hero-item" class="text-3xl font-extrabold leading-tight text-text-primary sm:text-4xl lg:text-5xl">
           Un yapeo<br />cambia el día<br />de un perrito.
         </h1>
-        <p class="mt-3 max-w-md text-text-secondary">
+        <p data-animate="hero-item" class="mt-3 max-w-md text-text-secondary">
           Encuentra un albergue cerca de ti, escanea su QR de Yape y aporta lo que quieras.
           Wasitas nunca toca el dinero.
         </p>
@@ -63,20 +80,24 @@ const needHelp = [...shelters]
       </div>
     </section>
 
-    <SearchBar class="mt-6" />
-    <FilterChips class="mt-4" />
+    <div data-animate="hero-item">
+      <SearchBar class="mt-6" />
+      <FilterChips class="mt-4" />
+    </div>
 
-    <StatRow
-      class="mt-6"
-      stats={[
-        { value: formatSoles(totalRecaudado), label: "Recaudado" },
-        { value: String(shelters.length), label: "Albergues" },
-        { value: String(totalYapeos), label: "Yapeos" },
-      ]}
-    />
+    <div data-animate="hero-item">
+      <StatRow
+        class="mt-6"
+        stats={[
+          { value: formatSoles(totalRecaudado), label: "Recaudado" },
+          { value: String(shelters.length), label: "Albergues" },
+          { value: String(totalYapeos), label: "Yapeos" },
+        ]}
+      />
+    </div>
 
     {needHelp.length > 0 && (
-      <section class="mt-8">
+      <section class="gsap-reveal mt-8">
         <div class="mb-3 flex items-center justify-between">
           <h2 class="text-lg font-bold text-text-primary">Necesitan ayuda hoy</h2>
           <a href="/buscar" class="text-sm font-semibold text-text-secondary">Ver todos</a>
@@ -91,7 +112,7 @@ const needHelp = [...shelters]
     )}
 
     {adoptableDogs.length > 0 && (
-      <section class="mt-8">
+      <section class="gsap-reveal mt-8">
         <div class="mb-3 flex items-center justify-between">
           <h2 class="text-lg font-bold text-text-primary">Mascotas en adopción</h2>
           <a href="/buscar?tag=Adopcion" class="text-sm font-semibold text-text-secondary">Ver albergues</a>

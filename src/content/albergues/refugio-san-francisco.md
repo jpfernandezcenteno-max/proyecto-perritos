@@ -1,10 +1,10 @@
 ---
 nombre: "Refugio San Francisco"
 verificado: false
-distrito: "Ate"
-direccion: "Carretera Central km 8, Ate"
-lat: -12.0296
-lng: -76.9186
+distrito: "Paucarpata"
+direccion: "Av. Los Incas km 3, Paucarpata"
+lat: -16.4211
+lng: -71.5
 fotos:
   - "https://placedog.net/1200/900?id=6"
   - "https://placedog.net/1200/900?id=7"
@@ -23,5 +23,5 @@ contacto:
   telefono: "51955667788"
 ---
 
-El refugio más grande de la zona este de Lima, con capacidad para más de 60
+El refugio más grande de la zona este de Arequipa, con capacidad para más de 60
 perritos en proceso de recuperación y espera de adopción.

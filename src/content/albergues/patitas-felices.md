@@ -1,10 +1,10 @@
 ---
 nombre: "Patitas Felices"
 verificado: true
-distrito: "Surco"
-direccion: "Av. Los Álamos 245, Surco"
-lat: -12.1352
-lng: -76.9902
+distrito: "Yanahuara"
+direccion: "Av. Ejército 245, Yanahuara"
+lat: -16.3956
+lng: -71.543
 fotos:
   - "https://placedog.net/1200/900?id=1"
   - "https://placedog.net/1200/900?id=2"
@@ -28,6 +28,6 @@ contacto:
   redes: "@patitasfelices.pe"
 ---
 
-Somos un albergue sin fines de lucro en Surco dedicado al rescate, rehabilitación
+Somos un albergue sin fines de lucro en Yanahuara dedicado al rescate, rehabilitación
 y adopción responsable de perros abandonados. Desde 2019 hemos dado una segunda
 oportunidad a más de 400 perritos.

@@ -1,10 +1,10 @@
 ---
 nombre: "Huellitas de Amor"
 verificado: true
-distrito: "Los Olivos"
-direccion: "Jr. Las Camelias 512, Los Olivos"
-lat: -11.9822
-lng: -77.0714
+distrito: "Cayma"
+direccion: "Jr. Las Camelias 512, Cayma"
+lat: -16.3833
+lng: -71.5498
 fotos:
   - "https://placedog.net/1200/900?id=4"
   - "https://placedog.net/1200/900?id=5"
@@ -26,5 +26,5 @@ contacto:
   redes: "@huellitasdeamor"
 ---
 
-Albergue familiar en Los Olivos enfocado en rescate de calle y adopción. Todos
+Albergue familiar en Cayma enfocado en rescate de calle y adopción. Todos
 nuestros perritos reciben atención veterinaria antes de salir en adopción.

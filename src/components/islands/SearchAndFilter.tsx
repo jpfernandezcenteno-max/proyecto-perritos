@@ -188,7 +188,7 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
           <div className={`${view === "lista" ? "hidden lg:block" : ""} lg:sticky lg:top-20`}>
             <MapView
               pins={pins}
-              zoneLabel={`Lima Metropolitana · ${pins.length} pines`}
+              zoneLabel={`Arequipa · ${pins.length} pines`}
               heightClassName="mt-4 h-[28rem] lg:h-[36rem]"
             />
           </div>

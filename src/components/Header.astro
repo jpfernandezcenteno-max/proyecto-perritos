@@ -7,9 +7,20 @@ const { class: className = "" } = Astro.props;
 const path = Astro.url.pathname;
 const user = Astro.locals.user ?? null;
 
+const tagParam = Astro.url.searchParams.get("tag");
 const links = [
-  { href: "/buscar", label: "Buscar", match: (p: string) => p.startsWith("/buscar") },
-  { href: "/mapa", label: "Mapa", match: (p: string) => p.startsWith("/mapa") },
+  {
+    href: "/buscar",
+    label: "Buscar albergues",
+    match: (p: string) => p.startsWith("/buscar") && tagParam !== "Adopcion",
+  },
+  { href: "/mapa", label: "Mapas de impacto", match: (p: string) => p.startsWith("/mapa") },
+  {
+    href: "/buscar?tag=Adopcion",
+    label: "Adopción",
+    match: (p: string) => p.startsWith("/buscar") && tagParam === "Adopcion",
+  },
+  { href: "/#como-funciona", label: "Cómo funciona", match: () => false },
 ];
 
 const userInitials = user
@@ -23,7 +34,7 @@ const userInitials = user
       wasitas<span class="text-accent-urgent">.</span>
     </a>
 
-    <nav class="hidden items-center gap-6 lg:flex" aria-label="Navegación principal">
+    <nav class="hidden items-center gap-5 lg:flex" aria-label="Navegación principal">
       {links.map((link) => (
         <a
           href={link.href}

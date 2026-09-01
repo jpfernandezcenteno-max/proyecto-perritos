@@ -5,10 +5,10 @@ export function formatSoles(amount: number): string {
 }
 
 const TAG_LABELS: Record<ShelterTag, string> = {
-  Urgente: "Urgente",
-  Comida: "Comida",
-  Veterinaria: "Veterinaria",
-  Adopcion: "Adopción",
+  Urgente: "🚨 Urgente",
+  Comida: "🍖 Comida",
+  Veterinaria: "🏥 Veterinaria",
+  Adopcion: "🐾 Adopción",
 };
 
 export function tagLabel(tag: ShelterTag): string {

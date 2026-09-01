@@ -17,25 +17,25 @@ const features: Feature[] = [
   {
     color: "orange",
     icon: "M12 21s-7.5-4.6-9.7-9C.6 8.4 2 4.5 5.6 4.1c2-.2 3.8.8 4.4 2.4C10.6 4.9 12.4 3.9 14.4 4.1c3.6.4 5 4.3 3.3 7.9-2.2 4.4-9.7 9-9.7 9z",
-    title: "Sin comisiones",
+    title: "Sin comisiones 💸",
     text: "Wasitas nunca toca el dinero. Escaneas el QR de Yape del albergue y tu aporte llega directo, sin intermediarios.",
   },
   {
     color: "green",
     icon: "M12 2 2 7v6c0 5 4.4 9.4 10 11 5.6-1.6 10-6 10-11V7l-10-5ZM9 12l2 2 4-4",
-    title: "Albergues verificados",
+    title: "Albergues verificados ✅",
     text: "Revisamos el RUC y la identidad de cada albergue antes de publicarlo, para que sepas a quién le estás yapeando.",
   },
   {
     color: "blue",
     icon: "M4 4h16v4H4zM6 10h4v10H6zM14 10h4v10h-4zM4 20h16",
-    title: "100% transparente",
+    title: "100% transparente 🔍",
     text: "Cada perfil muestra en qué se usó cada sol: comida, vacunas, esterilizaciones y más, con montos y fechas reales.",
   },
   {
     color: "yellow",
     icon: "M12 12a4 4 0 100-8 4 4 0 000 8zM4 20a8 8 0 0116 0",
-    title: "Impacto real",
+    title: "Impacto real ❤️",
     text: "Cientos de perritos y gatitos ya encontraron comida, atención veterinaria o un hogar gracias a la comunidad Wasitas.",
   },
 ];
@@ -43,7 +43,7 @@ const features: Feature[] = [
 
 <section class="mx-auto max-w-6xl px-4 py-10 lg:px-8">
   <div class="text-center">
-    <h2 class="text-2xl font-extrabold text-text-primary sm:text-3xl">Estamos aquí para cuidarlos</h2>
+    <h2 class="text-2xl font-extrabold text-text-primary sm:text-3xl">Estamos aquí para cuidarlos 🐾</h2>
     <p class="mx-auto mt-2 max-w-xl text-sm text-text-secondary">
       Así es como Wasitas hace que cada yapeo cuente de verdad.
     </p>
@@ -51,7 +51,7 @@ const features: Feature[] = [
 
   <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
     {features.map((feature) => (
-      <div class:list={["gsap-reveal rounded-card p-5 text-white shadow-sm", bgClass[feature.color]]}>
+      <div class:list={["gsap-reveal rounded-card p-5 text-white shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg", bgClass[feature.color]]}>
         <span class="flex h-11 w-11 items-center justify-center rounded-pill bg-white/20">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-6 w-6" aria-hidden="true">
             <path d={feature.icon} stroke-linecap="round" stroke-linejoin="round"></path>

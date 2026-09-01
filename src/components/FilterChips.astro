@@ -2,19 +2,16 @@
 // Static quick-filter row (e.g. on Home): each chip navigates to /buscar
 // pre-filtered. For live multi-select filtering see the React FilterChips
 // used inside the SearchAndFilter island on /buscar.
+import { tagLabel } from "../lib/format";
+import type { ShelterTag } from "../lib/types";
+
 interface Props {
   activeTag?: string;
   class?: string;
 }
 
 const { activeTag = "Urgente", class: className = "" } = Astro.props;
-const tags = ["Urgente", "Comida", "Veterinaria", "Adopcion"] as const;
-const labels: Record<(typeof tags)[number], string> = {
-  Urgente: "Urgente",
-  Comida: "Comida",
-  Veterinaria: "Veterinaria",
-  Adopcion: "Adopción",
-};
+const tags: ShelterTag[] = ["Urgente", "Comida", "Veterinaria", "Adopcion"];
 ---
 
 <div class:list={["flex gap-2 overflow-x-auto", className]} role="list">
@@ -30,7 +27,7 @@ const labels: Record<(typeof tags)[number], string> = {
           active ? "bg-accent-urgent text-white" : "bg-chip-bg text-text-primary",
         ]}
       >
-        {labels[tag]}
+        {tagLabel(tag)}
       </a>
     );
   })}

@@ -21,17 +21,17 @@ const { dog, shelterSlug, class: className = "" } = Astro.props;
 <a
   href={`/albergues/${shelterSlug}/perritos/${dog.slug}`}
   class:list={[
-    "block overflow-hidden rounded-card bg-surface shadow-sm transition hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-cta",
+    "group block overflow-hidden rounded-card bg-surface shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-cta",
     className,
   ]}
 >
-  <div class="relative">
+  <div class="relative overflow-hidden">
     <Image
       src={dog.fotos[0]}
       alt={`Foto de ${dog.nombre}`}
       width={400}
       height={300}
-      class="aspect-[4/3] w-full object-cover"
+      class="aspect-[4/3] w-full object-cover transition duration-300 group-hover:scale-110"
     />
     {dog.adoptado && (
       <Badge variant="adoptada" class="absolute right-2 top-2" />

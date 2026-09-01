@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { actions } from "astro:actions";
+import { Image } from "astro:assets";
 
 if (Astro.locals.user) {
   return Astro.redirect("/cuenta");
@@ -14,66 +15,86 @@ const registered = result && !result.error && !result.data.hasSession;
 ---
 
 <Layout title="Crear cuenta">
-  <div class="mx-auto flex max-w-md flex-col px-4 py-10 lg:py-16">
-    <h1 class="text-2xl font-bold text-text-primary">Crea tu cuenta</h1>
-    <p class="mt-1 text-sm text-text-secondary">
-      Guarda tu historial de yapeos y sigue a los perritos que más te importan.
-    </p>
-
-    {registered ? (
-      <p class="mt-6 rounded-card bg-surface p-4 text-sm text-text-primary shadow-sm">
-        ¡Listo! Te enviamos un correo para confirmar tu cuenta. Una vez confirmada,
-        podrás <a href="/login" class="font-semibold underline">iniciar sesión</a>.
-      </p>
-    ) : (
-      <>
-        {result?.error && (
-          <p class="mt-4 rounded-input bg-accent-urgent/10 px-3 py-2.5 text-sm font-medium text-accent-urgent">
-            {result.error.message}
-          </p>
-        )}
-
-        <form method="POST" action={actions.auth.register} class="mt-6 flex flex-col gap-4">
-          <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
-            Nombre
-            <input
-              name="nombre"
-              type="text"
-              required
-              autocomplete="name"
-              class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
-            />
-          </label>
-          <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
-            Correo
-            <input
-              name="email"
-              type="email"
-              required
-              autocomplete="email"
-              class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
-            />
-          </label>
-          <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
-            Contraseña
-            <input
-              name="password"
-              type="password"
-              required
-              minlength="8"
-              autocomplete="new-password"
-              class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
-            />
-          </label>
-          <button type="submit" class="mt-2 rounded-pill bg-accent-cta px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90">
-            Crear cuenta
-          </button>
-        </form>
-
-        <p class="mt-6 text-center text-sm text-text-secondary">
-          ¿Ya tienes cuenta? <a href="/login" class="font-semibold text-text-primary">Inicia sesión</a>
+  <div class="lg:grid lg:min-h-[calc(100dvh-8.5rem)] lg:grid-cols-2">
+    <div class="relative h-56 overflow-hidden sm:h-72 lg:h-auto">
+      <Image
+        src="https://placedog.net/1000/1200?id=31"
+        alt="Perrito feliz esperando su nuevo hogar"
+        width={1000}
+        height={1200}
+        class="h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-accent-cta/90 via-accent-cta/20 to-transparent"></div>
+      <div class="absolute inset-0 flex flex-col justify-end p-6 text-white lg:p-10">
+        <span class="w-fit rounded-pill bg-white/20 px-3 py-1 text-xs font-semibold">🐾 ¡Bienvenido!</span>
+        <h2 class="mt-3 font-heading text-2xl font-extrabold sm:text-3xl">¡Únete a la manada!</h2>
+        <p class="mt-2 max-w-sm text-sm text-white/90">
+          Guarda tu historial de yapeos y sigue a los perritos y gatitos que más te importan.
         </p>
-      </>
-    )}
+      </div>
+    </div>
+
+    <div class="flex flex-col justify-center px-4 py-8 lg:px-16">
+      <h1 class="text-2xl font-bold text-text-primary">Crea tu cuenta 🐶</h1>
+      <p class="mt-1 text-sm text-text-secondary">
+        Solo toma un minuto — y Wasitas nunca toca el dinero de tus aportes.
+      </p>
+
+      {registered ? (
+        <p class="mt-6 rounded-card bg-surface p-4 text-sm text-text-primary shadow-sm">
+          ¡Listo! 🎉 Te enviamos un correo para confirmar tu cuenta. Una vez confirmada,
+          podrás <a href="/login" class="font-semibold underline">iniciar sesión</a>.
+        </p>
+      ) : (
+        <>
+          {result?.error && (
+            <p class="mt-4 rounded-input bg-accent-urgent/10 px-3 py-2.5 text-sm font-medium text-accent-urgent">
+              {result.error.message}
+            </p>
+          )}
+
+          <form method="POST" action={actions.auth.register} class="mt-6 flex flex-col gap-4">
+            <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
+              Nombre
+              <input
+                name="nombre"
+                type="text"
+                required
+                autocomplete="name"
+                class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
+              />
+            </label>
+            <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
+              Correo
+              <input
+                name="email"
+                type="email"
+                required
+                autocomplete="email"
+                class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
+              />
+            </label>
+            <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
+              Contraseña
+              <input
+                name="password"
+                type="password"
+                required
+                minlength="8"
+                autocomplete="new-password"
+                class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
+              />
+            </label>
+            <button type="submit" class="mt-2 rounded-pill bg-accent-cta px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90">
+              Crear cuenta 🐾
+            </button>
+          </form>
+
+          <p class="mt-6 text-center text-sm text-text-secondary">
+            ¿Ya tienes cuenta? <a href="/login" class="font-semibold text-text-primary">Inicia sesión</a>
+          </p>
+        </>
+      )}
+    </div>
   </div>
 </Layout>

@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { actions } from "astro:actions";
+import { Image } from "astro:assets";
 
 if (Astro.locals.user) {
   return Astro.redirect("/cuenta");
@@ -13,46 +14,66 @@ if (result && !result.error) {
 ---
 
 <Layout title="Iniciar sesión">
-  <div class="mx-auto flex max-w-md flex-col px-4 py-10 lg:py-16">
-    <h1 class="text-2xl font-bold text-text-primary">Inicia sesión</h1>
-    <p class="mt-1 text-sm text-text-secondary">
-      Entra a tu cuenta para ver tu historial de yapeos y los perritos que sigues.
-    </p>
+  <div class="lg:grid lg:min-h-[calc(100dvh-8.5rem)] lg:grid-cols-2">
+    <div class="relative h-56 overflow-hidden sm:h-72 lg:h-auto">
+      <Image
+        src="/images/pets/cat-1.jpg"
+        alt="Gatito esperando en un albergue"
+        width={1000}
+        height={1200}
+        class="h-full w-full object-cover"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-joy-blue/90 via-joy-blue/20 to-transparent"></div>
+      <div class="absolute inset-0 flex flex-col justify-end p-6 text-white lg:p-10">
+        <span class="w-fit rounded-pill bg-white/20 px-3 py-1 text-xs font-semibold">👋 ¡Qué bueno verte!</span>
+        <h2 class="mt-3 font-heading text-2xl font-extrabold sm:text-3xl">De vuelta con la manada</h2>
+        <p class="mt-2 max-w-sm text-sm text-white/90">
+          Revisa tu historial de yapeos y los perritos y gatitos que sigues.
+        </p>
+      </div>
+    </div>
 
-    {result?.error && (
-      <p class="mt-4 rounded-input bg-accent-urgent/10 px-3 py-2.5 text-sm font-medium text-accent-urgent">
-        {result.error.message}
+    <div class="flex flex-col justify-center px-4 py-8 lg:px-16">
+      <h1 class="text-2xl font-bold text-text-primary">Inicia sesión 🐶</h1>
+      <p class="mt-1 text-sm text-text-secondary">
+        Entra a tu cuenta para ver tu historial de yapeos y los perritos que sigues.
       </p>
-    )}
 
-    <form method="POST" action={actions.auth.login} class="mt-6 flex flex-col gap-4">
-      <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
-        Correo
-        <input
-          name="email"
-          type="email"
-          required
-          autocomplete="email"
-          class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
-        />
-      </label>
-      <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
-        Contraseña
-        <input
-          name="password"
-          type="password"
-          required
-          autocomplete="current-password"
-          class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
-        />
-      </label>
-      <button type="submit" class="mt-2 rounded-pill bg-accent-cta px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90">
-        Iniciar sesión
-      </button>
-    </form>
+      {result?.error && (
+        <p class="mt-4 rounded-input bg-accent-urgent/10 px-3 py-2.5 text-sm font-medium text-accent-urgent">
+          {result.error.message}
+        </p>
+      )}
 
-    <p class="mt-6 text-center text-sm text-text-secondary">
-      ¿No tienes cuenta? <a href="/registro" class="font-semibold text-text-primary">Créala aquí</a>
-    </p>
+      <form method="POST" action={actions.auth.login} class="mt-6 flex flex-col gap-4">
+        <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
+          Correo
+          <input
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
+          />
+        </label>
+        <label class="flex flex-col gap-1 text-sm font-medium text-text-primary">
+          Contraseña
+          <input
+            name="password"
+            type="password"
+            required
+            autocomplete="current-password"
+            class="rounded-input border border-chip-bg bg-surface px-3 py-2.5 text-sm text-text-primary"
+          />
+        </label>
+        <button type="submit" class="mt-2 rounded-pill bg-accent-cta px-4 py-3 text-sm font-semibold text-white transition hover:opacity-90">
+          Iniciar sesión 🐾
+        </button>
+      </form>
+
+      <p class="mt-6 text-center text-sm text-text-secondary">
+        ¿No tienes cuenta? <a href="/registro" class="font-semibold text-text-primary">Créala aquí</a>
+      </p>
+    </div>
   </div>
 </Layout>

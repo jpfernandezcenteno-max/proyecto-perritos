@@ -41,53 +41,53 @@ const needHelp = [...shelters]
 ---
 
 <Layout title="Inicio">
-  <div class="mx-auto max-w-5xl px-4 pb-10 pt-6 lg:pt-10">
-    <section class="relative lg:grid lg:grid-cols-2 lg:items-center lg:gap-10">
-      <svg
-        data-animate="bone-spin"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        class="absolute -top-2 left-1/2 h-8 w-8 -translate-x-16 text-joy-yellow sm:h-10 sm:w-10 lg:left-auto lg:right-10 lg:top-6 lg:translate-x-0"
-        aria-hidden="true"
-      >
-        <rect x="4" y="9" width="16" height="6" rx="3"></rect>
-        <circle cx="4" cy="7.5" r="2.5"></circle>
-        <circle cx="4" cy="16.5" r="2.5"></circle>
-        <circle cx="20" cy="7.5" r="2.5"></circle>
-        <circle cx="20" cy="16.5" r="2.5"></circle>
-      </svg>
+  <section class="relative flex min-h-[88vh] items-end overflow-hidden lg:min-h-[92vh]">
+    <Image
+      src={shelters[0]?.fotos[0] ?? "https://placedog.net/1600/1200?id=20"}
+      alt="Perrito feliz en un albergue de Wasitas"
+      width={1600}
+      height={1200}
+      class="absolute inset-0 h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
 
-      <div>
-        <h1 data-animate="hero-item" class="text-3xl font-extrabold leading-tight text-text-primary sm:text-4xl lg:text-5xl">
-          Un yapeo<br />cambia el día<br />de un perrito. 🐾
-        </h1>
-        <p data-animate="hero-item" class="mt-3 max-w-md text-text-secondary">
-          Encuentra un albergue cerca de ti, escanea su QR de Yape y aporta lo que quieras.
-          Wasitas nunca toca el dinero.
-        </p>
-      </div>
-      <div class="mt-6 hidden aspect-square items-center justify-center rounded-card bg-chip-bg lg:flex">
-        <Image
-          src={shelters[0]?.fotos[0] ?? "https://placedog.net/900/900?id=20"}
-          alt="Perrito en un albergue de Wasitas"
-          width={600}
-          height={600}
-          class="h-full w-full rounded-card object-cover"
-        />
-      </div>
-    </section>
+    <svg
+      data-animate="bone-spin"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      class="absolute right-6 top-24 h-9 w-9 text-joy-yellow sm:h-11 sm:w-11 lg:right-14 lg:top-28"
+      aria-hidden="true"
+    >
+      <rect x="4" y="9" width="16" height="6" rx="3"></rect>
+      <circle cx="4" cy="7.5" r="2.5"></circle>
+      <circle cx="4" cy="16.5" r="2.5"></circle>
+      <circle cx="20" cy="7.5" r="2.5"></circle>
+      <circle cx="20" cy="16.5" r="2.5"></circle>
+    </svg>
 
-    <div data-animate="hero-item">
-      <SearchBar class="mt-6" />
-      <FilterChips class="mt-4" />
+    <div class="relative z-10 mx-auto w-full max-w-5xl px-4 pb-10 sm:pb-14 lg:pb-16">
+      <h1 data-animate="hero-item" class="text-4xl font-extrabold leading-tight text-white drop-shadow-sm sm:text-5xl lg:text-6xl">
+        Un yapeo<br />cambia el día<br />de un perrito. 🐾
+      </h1>
+      <p data-animate="hero-item" class="mt-3 max-w-md text-white/90">
+        Encuentra un albergue cerca de ti, escanea su QR de Yape y aporta lo que quieras.
+        Wasitas nunca toca el dinero.
+      </p>
+
+      <div data-animate="hero-item">
+        <SearchBar class="mt-6" />
+        <FilterChips class="mt-4" />
+      </div>
     </div>
+  </section>
 
+  <div class="mx-auto max-w-5xl px-4 pb-10 pt-6 lg:pt-10">
     <div data-animate="hero-item">
       <StatRow
-        class="mt-6"
+        class="mt-0"
         stats={[
           { value: formatSoles(totalRecaudado), label: "Recaudado" },
           { value: String(shelters.length), label: "Albergues" },

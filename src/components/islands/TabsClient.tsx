@@ -30,7 +30,7 @@ export default function TabsClient({ tabs, panels, defaultTab }: Props) {
             aria-selected={active === tab.id}
             onClick={() => setActive(tab.id)}
             className={`shrink-0 rounded-pill px-4 py-2 text-sm font-semibold transition ${
-              active === tab.id ? "bg-surface text-text-primary shadow-sm" : "text-text-secondary"
+              active === tab.id ? "bg-surface text-text-primary shadow-sm" : "text-text-secondary hover:text-text-primary"
             }`}
           >
             {tab.label}

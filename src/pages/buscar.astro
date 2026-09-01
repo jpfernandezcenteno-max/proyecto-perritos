@@ -25,7 +25,7 @@ const initialTags = (tagParam ? [tagParam] : []) as ShelterTag[];
 ---
 
 <Layout title="Buscar">
-  <div class="mx-auto max-w-6xl px-4 pb-10 pt-6 lg:px-8">
+  <div data-animate="hero-item" class="mx-auto max-w-6xl px-4 pb-10 pt-6 lg:px-8">
     <h1 class="sr-only">Buscar albergues</h1>
     <SearchAndFilter client:load shelters={searchable} initialQuery={initialQuery} initialTags={initialTags} />
   </div>

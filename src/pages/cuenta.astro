@@ -46,9 +46,9 @@ const totalDonado = historial.reduce((sum, h) => sum + h.monto, 0);
 
 <Layout title="Mi cuenta">
   <div class="mx-auto max-w-6xl px-4 pb-10 pt-6 lg:px-8">
-    <div class="flex items-center justify-between">
+    <div data-animate="hero-item" class="flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <span class="flex h-12 w-12 items-center justify-center rounded-pill bg-accent-cta text-sm font-semibold text-white">
+        <span class="flex h-12 w-12 items-center justify-center rounded-pill bg-accent-cta text-sm font-semibold text-white transition hover:scale-105">
           {donor.iniciales}
         </span>
         <div>
@@ -70,7 +70,7 @@ const totalDonado = historial.reduce((sum, h) => sum + h.monto, 0);
     </div>
 
     <div class="mt-6 lg:grid lg:grid-cols-[1fr_22rem] lg:items-start lg:gap-10">
-      <div class="lg:order-2">
+      <div data-animate="hero-item" class="lg:order-2">
         {mainShelter && (
           <MonthlyDonationCard
             client:visible
@@ -90,11 +90,11 @@ const totalDonado = historial.reduce((sum, h) => sum + h.monto, 0);
       </div>
 
       <div class="mt-8 lg:order-1 lg:mt-0">
-        <section>
-          <h2 class="font-bold text-text-primary">Mis yapeos</h2>
+        <section class="gsap-reveal">
+          <h2 class="font-bold text-text-primary">Mis yapeos 🧾</h2>
           <ul class="mt-3 divide-y divide-chip-bg overflow-hidden rounded-card bg-surface shadow-sm">
             {historial.map((h) => (
-              <li class="flex items-center justify-between p-3">
+              <li class="flex items-center justify-between p-3 transition hover:bg-chip-bg/60">
                 <div>
                   <p class="text-sm font-semibold text-text-primary">{h.shelter.nombre}</p>
                   <p class="text-xs text-text-secondary">{h.fecha} · {h.constancia}</p>
@@ -106,8 +106,8 @@ const totalDonado = historial.reduce((sum, h) => sum + h.monto, 0);
         </section>
 
         {following.length > 0 && (
-          <section class="mt-8">
-            <h2 class="font-bold text-text-primary">Siguiendo en adopción</h2>
+          <section class="gsap-reveal mt-8">
+            <h2 class="font-bold text-text-primary">Siguiendo en adopción 🐾</h2>
             <div class="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3">
               {following.map((dog) => (
                 <DogCard dog={dog} shelterSlug={mainShelter!.slug} />

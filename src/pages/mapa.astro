@@ -60,13 +60,15 @@ const monthLabel = new Date().toLocaleDateString("es-PE", { month: "long" });
 
 <Layout title="Mapa y ranking">
   <div class="mx-auto max-w-6xl px-4 pb-10 pt-6 lg:px-8">
-    <div class="flex items-center gap-2">
+    <div data-animate="hero-item" class="flex items-center gap-2">
       <SearchBar action="/mapa" value={distritoQuery ?? ""} placeholder="Busca por distrito" class="flex-1" />
-      <a href="/buscar" class="shrink-0 rounded-pill bg-chip-bg px-4 py-3 text-sm font-semibold text-text-primary lg:hidden">Lista</a>
+      <a href="/buscar" class="shrink-0 rounded-pill bg-chip-bg px-4 py-3 text-sm font-semibold text-text-primary transition hover:bg-accent-cta hover:text-white lg:hidden">Lista</a>
     </div>
 
     <div class="lg:grid lg:grid-cols-[1fr_22rem] lg:items-start lg:gap-6">
-      <MapView client:load pins={pins} zoneLabel={`Arequipa · ${pins.length} pines`} heightClassName="mt-4 h-96 lg:h-[36rem]" />
+      <div data-animate="hero-item">
+        <MapView client:load pins={pins} zoneLabel={`Arequipa · ${pins.length} pines`} heightClassName="mt-4 h-96 lg:h-[36rem]" />
+      </div>
 
       <div
         id="map-sheet"
@@ -83,13 +85,13 @@ const monthLabel = new Date().toLocaleDateString("es-PE", { month: "long" });
         </button>
 
         <div class="max-h-[65vh] overflow-y-auto px-4 pb-6 lg:mt-4 lg:max-h-none lg:overflow-visible lg:px-0 lg:pb-0">
-          <section class="rounded-card bg-surface p-4 shadow-sm lg:shadow-sm">
-            <h2 class="font-bold text-text-primary">Top albergues de {monthLabel}</h2>
+          <section class="gsap-reveal rounded-card bg-surface p-4 shadow-sm lg:shadow-sm">
+            <h2 class="font-bold text-text-primary">Top albergues de {monthLabel} 🏆</h2>
             <RankingList items={ranking} class="mt-3" />
           </section>
 
           <StatRow
-            class="mt-4"
+            class="gsap-reveal mt-4"
             stats={[
               { value: formatSoles(totalMonto), label: "Total yapeado" },
               { value: String(totalPersonas), label: "Personas" },

@@ -101,7 +101,7 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
         <h3 className="font-heading text-sm font-bold text-text-primary">Necesidad</h3>
         <div className="mt-3 flex flex-col gap-2.5">
           {ALL_TAGS.map((tag) => (
-            <label key={tag} className="flex items-center gap-2.5 text-sm text-text-primary">
+            <label key={tag} className="flex cursor-pointer items-center gap-2.5 rounded-input px-1.5 py-1 text-sm text-text-primary transition hover:bg-chip-bg/60">
               <input
                 type="checkbox"
                 checked={activeTags.includes(tag)}
@@ -119,7 +119,7 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
           <h3 className="font-heading text-sm font-bold text-text-primary">Distrito</h3>
           <div className="mt-3 flex flex-col gap-2.5">
             {distritos.map((distrito) => (
-              <label key={distrito} className="flex items-center gap-2.5 text-sm text-text-primary">
+              <label key={distrito} className="flex cursor-pointer items-center gap-2.5 rounded-input px-1.5 py-1 text-sm text-text-primary transition hover:bg-chip-bg/60">
                 <input
                   type="checkbox"
                   checked={activeDistritos.includes(distrito)}
@@ -174,7 +174,7 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
             type="button"
             onClick={() => setFiltersOpen((v) => !v)}
             aria-expanded={filtersOpen}
-            className="flex shrink-0 items-center gap-1.5 rounded-pill bg-chip-bg px-4 py-3 text-sm font-semibold text-text-primary lg:hidden"
+            className="flex shrink-0 items-center gap-1.5 rounded-pill bg-chip-bg px-4 py-3 text-sm font-semibold text-text-primary transition hover:bg-accent-cta hover:text-white lg:hidden"
           >
             Filtros
             {activeFilterCount > 0 && (
@@ -232,7 +232,7 @@ export default function SearchAndFilter({ shelters, initialQuery = "", initialTa
             {results.map((shelter) => (
               <li
                 key={shelter.slug}
-                className="flex items-center gap-3 rounded-card bg-surface p-3 shadow-sm transition hover:shadow-md"
+                className="flex items-center gap-3 rounded-card bg-surface p-3 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md"
               >
                 <a href={`/albergues/${shelter.slug}`} className="flex min-w-0 flex-1 items-center gap-3">
                   <img
